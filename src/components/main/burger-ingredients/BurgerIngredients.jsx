@@ -5,6 +5,7 @@ import '../../navigation/Navigation.scss'
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import PropTypes from 'prop-types';
+import { ingredientType } from "../../../utils/types";
 
 export function BurgerIngredients({bunArr, meatArr, sauceArr }){
     return(
@@ -26,70 +27,11 @@ export function BurgerIngredients({bunArr, meatArr, sauceArr }){
     )
 }
 
-BurgerIngredients.propTypes={
-  bunArr:PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        src:PropTypes.string,
-        name:PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
-        _id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        __v:PropTypes.number.isRequired,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large:PropTypes.string
-
-      }
-    )
-  ),
-
-  meatArr:PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        src:PropTypes.string,
-        name:PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
-        _id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        __v:PropTypes.number.isRequired,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large:PropTypes.string
-
-      }
-    )
-  ),
-
-  sauceArr:PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        src:PropTypes.string,
-        name:PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
-        _id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        __v:PropTypes.number.isRequired,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large:PropTypes.string
-
-      }
-    )
-  )
-}
+BurgerIngredients.propTypes = {
+  bunArr: PropTypes.arrayOf(ingredientType),  
+  meatArr: PropTypes.arrayOf(ingredientType), 
+  sauceArr: PropTypes.arrayOf(ingredientType) 
+};
 
 BurgerIngredients.defaultProps={
   bunArr:PropTypes.arrayOf(

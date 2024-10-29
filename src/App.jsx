@@ -67,7 +67,6 @@ function App() {
             <>
               <BurgerIngredients bunArr={buns} meatArr={meat} sauceArr={sauce} onOpenModal={handleOpenModal}/>
               <BurgerConstructor ingredientsConstructor={ingredients} onOpenModel={handleOpenModal}/>
-              {isModalVisible && <ModalOverlay onClose={handleCloseModal} content={modalContent} />}
             </>
           )
       }

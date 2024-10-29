@@ -6,6 +6,9 @@ import { ModalOverlay } from "../../../modal/ModalOverlay";
 import { OrderDetails} from '../../../../components/modal/detail/OrderDetails'
 import { useState } from "react";
 import PropTypes from 'prop-types';
+import { ingredientType } from "../../../../utils/types";
+import { Bun } from "./bun/Bun";
+import { Modal } from "../../../modal/Modal";
 
 export function BurgerConstructor({ingredientsConstructor}){
 
@@ -19,52 +22,43 @@ export function BurgerConstructor({ingredientsConstructor}){
     setShowModalOrder(false);
   };
 
+  const firstBun = ingredientsConstructor.find(ingredient => ingredient.type === 'bun');
+  const upperBun = firstBun ? firstBun : null;
+  const lowerBun = upperBun ? { ...upperBun } : null; 
+  const otherIngredients = ingredientsConstructor.filter(ingredient => ingredient.type !== 'bun');
+
     return (
         <>
-        <div className="burger-constructror">
-        <section className="burger-constructor__ingredients custom-scroll mt-25"> 
-          {ingredientsConstructor.map((ingredients, index)=>(
-              <article className="burger-constructor__ingredient mb-4">
-              
-              {ingredients.type !== 'bun' && <DragIcon />}
-              <ConstructorElement  key={index} thumbnail={ingredients.image} 
+     <div className="burger-constructror">
+      <section className="mt-25">
+        {upperBun && (<Bun bun={upperBun} type="top" extraClass={"mb-4"}/>)}
+        <section className="burger-constructor__ingredients custom-scroll"> 
+          {otherIngredients.map((ingredients)=>(
+            <article className="burger-constructor__ingredient mb-4"  key={ingredients._id}>          
+              <DragIcon />
+              <ConstructorElement  thumbnail={ingredients.image} 
               price={ingredients.price} extraClass={ingredients.type==='bun' ? 'ml-8 ' : 'ml-2'}
               isLocked={ingredients.type==='bun' ? true : false }
               text={ingredients.name} />
               </article>
             ))}
         </section>
+          {lowerBun && (<Bun bun={upperBun} type="bottom"/>)}
+      </section>
           <div className="burger-constructor__info-price mt-10 mr-4">
             <div className="burger-constructor__price text_type_digits-medium  mr-10">610<CurrencyIcon/></div>
            <Button onClick={handleOrderClick}>Оформить заказ</Button>
           </div>
         </div>
         {isShowModalOrder && 
-          <ModalOverlay  content={<OrderDetails />} onClose={handleCloseModal}/>
+          <Modal onClose={handleCloseModal}>
+            <OrderDetails />
+          </Modal>
         }
         </>
     )
 }
 
 BurgerConstructor.propTypes={
-  ingredientsConstructort:PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        src:PropTypes.string,
-        name:PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
-        _id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        __v:PropTypes.number.isRequired,
-        image: PropTypes.string,
-        image_mobile: PropTypes.string,
-        image_large:PropTypes.string
-
-      }
-    )
-  )
+  ingredientsConstructort:PropTypes.arrayOf(ingredientType)
 }
