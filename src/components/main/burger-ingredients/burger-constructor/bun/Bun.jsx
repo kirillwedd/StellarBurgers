@@ -11,7 +11,7 @@ export function Bun({bun, type, extraClass}){
         isLocked="true"
         price={bun.price}
         thumbnail={bun.image}
-        text={bun.name}
+        text={type==="top" ? `${bun.name} (верх)` : `${bun.name} (низ)` }
         extraClass={extraClass}
         key={bun._id}/>
     )

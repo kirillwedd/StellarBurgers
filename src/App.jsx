@@ -3,8 +3,7 @@ import { AppHeader } from './components/header/AppHeader';
 import { BurgerConstructor } from './components/main/burger-ingredients/burger-constructor/BurgerConstructor';
 import { BurgerIngredients } from './components/main/burger-ingredients/BurgerIngredients';
 import { useState, useEffect } from 'react';
-import { Modal } from './components/modal/Modal';
-import { ModalOverlay } from './components/modal/ModalOverlay';
+
 
 const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
@@ -24,12 +23,6 @@ function App() {
     setModalContent(content);
     setModalVisible(true);
   };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-    setModalContent(null);
-  };
-
 
   useEffect(() => {
     const fetchIngredients = async () => {
@@ -67,6 +60,7 @@ function App() {
             <>
               <BurgerIngredients bunArr={buns} meatArr={meat} sauceArr={sauce} onOpenModal={handleOpenModal}/>
               <BurgerConstructor ingredientsConstructor={ingredients} onOpenModel={handleOpenModal}/>
+       
             </>
           )
       }

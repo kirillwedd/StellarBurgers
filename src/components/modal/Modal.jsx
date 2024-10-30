@@ -23,11 +23,11 @@ export function Modal({modalTitle, onClose, children}){
          <>     
             <ModalOverlay onClose={onClose}> 
             <header className="modal__header mt-10 mr-10 ml-10">
-                <h1 className="modal__title text_type_main-large text" >{modalTitle}</h1>
+                <h2 className="modal__title text_type_main-large text" >{modalTitle}</h2>
                 <div className="modal_close" onClick={onClose}><CloseIcon/></div>
             </header>
              {children}
- </ModalOverlay>
+            </ModalOverlay>
          </>, document.getElementById('modals')
     )
 }

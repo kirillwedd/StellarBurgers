@@ -5,11 +5,8 @@ import PropTypes from 'prop-types';
 
 export function ModalOverlay({onClose, children}){
     
-    const handleOverlayClick = (event) => {
-        
-        if (event.target === event.currentTarget) {
+    const handleOverlayClick = () => {
             onClose();
-        }
     };
 
     return(
@@ -20,5 +17,6 @@ export function ModalOverlay({onClose, children}){
 }
 
 ModalOverlay.propTypes={
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node,
 }
