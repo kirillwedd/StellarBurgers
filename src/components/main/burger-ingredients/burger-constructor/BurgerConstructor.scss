@@ -1,13 +1,17 @@
+
 .burger-constructor {
     width: 600px;
     height: 912px;
+    height: max-content;
     display: flex;
     flex-direction: column;
    
     &__ingredients{
         width: 600px;
-        height: 560px;
+        max-height: 656px;
+       
         overflow-y: auto;
+       
     }
 
     &__info-price{
@@ -19,6 +23,48 @@
     &__ingredient{
         display: flex;
         align-items: center;
+        
     }
 }
 
+.burger{
+    &__plug-element{
+        padding: 16px 24px;
+        display: inline-block;
+        background: #2f2f37;
+        max-width: 536px;
+        width: 100%;
+        min-height: 80px;
+        font-family: 'Jet Brains Mono';
+        font-size: 16px;
+        line-height: 24px;
+        color: #F2F2F3;
+        flex-grow: 1;
+        box-sizing: border-box;
+    }
+
+    &__plug-element--top {
+        border-radius: 88px 88px 40px 40px;
+    }
+
+    &__plug-element--bottom {
+        border-radius: 40px 40px 88px 88px;
+    }
+
+    &__plug-element--middle {
+        border-radius: 40px;
+    }
+
+    &__text {
+       
+        display: inline-flex;
+        align-items: center;
+        line-height: 24px;
+        text-align: left;
+        flex-grow: 1;
+    }
+}
+
+.m{
+    border: 2px solid red
+}

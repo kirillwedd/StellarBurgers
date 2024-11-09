@@ -3,21 +3,21 @@ import { AppHeader } from './components/header/AppHeader';
 import { BurgerConstructor } from './components/main/burger-ingredients/burger-constructor/BurgerConstructor';
 import { BurgerIngredients } from './components/main/burger-ingredients/BurgerIngredients';
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setError, setIngredients, setLoading } from './services/action/burgerIngredients';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+export const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
 
 function App() {
-  const [ingredients, setIngredients] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { ingredients, loading, error } = useSelector((state) => state.burgerIngredients);
 
   const buns=ingredients.filter(ingredient=> ingredient.type==="bun")
   const meat=ingredients.filter(ingredient=> ingredient.type==="main")
   const sauce=ingredients.filter(ingredient=> ingredient.type==="sauce")
-
-  const [modalContent, setModalContent] = useState(null);
-  const [isModalVisible, setModalVisible] = useState(false);
 
   const handleOpenModal = (content) => {
     setModalContent(content);
@@ -33,19 +33,16 @@ function App() {
           throw new Error('Ошибка сети: ' + response.statusText);
         }
         const data = await response.json();
-        setIngredients(data.data);
+        dispatch(setIngredients(data.data));
       } catch (err) {
-        setError(err.message);
+        dispatch(setError(err.message));
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
     fetchIngredients();
-  }, []);
-
-
-
+  }, [dispatch]);
 
   return (
     <>
@@ -58,9 +55,10 @@ function App() {
           ? <div>Ошибка: {error}</div> 
           : (
             <>
+            <DndProvider backend={HTML5Backend}>
               <BurgerIngredients bunArr={buns} meatArr={meat} sauceArr={sauce} onOpenModal={handleOpenModal}/>
-              <BurgerConstructor ingredientsConstructor={ingredients} onOpenModel={handleOpenModal}/>
-       
+              <BurgerConstructor />
+            </DndProvider>
             </>
           )
       }

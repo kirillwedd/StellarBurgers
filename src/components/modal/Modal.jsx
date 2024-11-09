@@ -11,6 +11,10 @@ export function Modal({modalTitle, onClose, children}){
             onClose(); 
         }
     };
+
+    const handleContentClick = (event) => {
+        event.stopPropagation(); 
+    };
    
     useEffect(()=>{
         window.addEventListener('keydown', handleKeyDown);
@@ -22,7 +26,7 @@ export function Modal({modalTitle, onClose, children}){
     return createPortal(
          <>     
             <ModalOverlay onClose={onClose}> 
-            <header className="modal__header mt-10 mr-10 ml-10">
+            <header className="modal__header mt-10 mr-10 ml-10" onClick={handleContentClick}>
                 <h2 className="modal__title text_type_main-large text" >{modalTitle}</h2>
                 <div className="modal_close" onClick={onClose}><CloseIcon/></div>
             </header>

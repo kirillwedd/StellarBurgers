@@ -1,4 +1,3 @@
-import { BurgerIngredientsNavItem } from "../../navigation/nav-item/BurgerIngredientsNavItem";
 import { GroupIngredients } from "./group-ingredients/GroupIngredients";
 import '../burger-ingredients/BurgerIngredients.scss'
 import '../../navigation/Navigation.scss'
@@ -6,22 +5,69 @@ import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-compone
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import PropTypes from 'prop-types';
 import { ingredientType } from "../../../utils/types";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { setTabActive} from "../../../services/action/burgerIngredients";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+
+
 
 export function BurgerIngredients({bunArr, meatArr, sauceArr }){
+const activeTab=useSelector((state)=>state.burgerIngredients.activeTab)
+const dispatch=useDispatch();
+
+const bunRef = useRef(null);
+const sauceRef = useRef(null);
+const meatRef = useRef(null);
+
+const headerRefs = {
+    bun: bunRef,
+    sauce: sauceRef,
+    meat: meatRef,
+};
+
+const handleTabClick = (tab) => {
+    dispatch(setTabActive(tab));
+    headerRefs[tab].current.scrollIntoView({ behavior: 'smooth' });
+};
+
+const handleScroll = () => {
+    const bunRect = bunRef.current.getBoundingClientRect();
+    const sauceRect = sauceRef.current.getBoundingClientRect();
+    const meatRect = meatRef.current.getBoundingClientRect();
+    
+    if (bunRect.top >= 0 && bunRect.top < window.innerHeight) {
+      dispatch(setTabActive("bun"));
+  } else if (sauceRect.top >= 0 && sauceRect.top < window.innerHeight) {
+      dispatch(setTabActive("sauce"));
+  } else if (meatRect.top >= 0 && meatRect.top < window.innerHeight) {
+      dispatch(setTabActive("meat"));
+  }
+};
+
+useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+}, []);
+
     return(
-       <section className="burger-ingredients custom-scroll">
+       <section  className="burger-ingredients">
         <h1 className="burger-ingredients__title text_type_main-large">Собери бургер</h1>
-         <nav className="burger-ingredients__list mt-5 mb-10">
-           <BurgerIngredientsNavItem>Булки</BurgerIngredientsNavItem>
-           <BurgerIngredientsNavItem>Соусы</BurgerIngredientsNavItem>
-           <BurgerIngredientsNavItem>Начинки</BurgerIngredientsNavItem>
+         <nav className="burger-ingredients__list mt-5 mb-10" ons>
+           <Tab value="bun" active={activeTab==='bun'} onClick={handleTabClick}>Булки</Tab>
+           <Tab value="sauce" active={activeTab==='sauce'} onClick={handleTabClick}>Соусы</Tab>
+           <Tab value="meat" active={activeTab==='meat'} onClick={handleTabClick}>Начинки</Tab>
          </nav>
-        <h2 className="ingredients-title text_type_main-medium">Булки</h2>
+         <section className="list-ingredients custom-scroll" onScroll={handleScroll}>
+        <h2 ref={bunRef} className="ingredients-title text text_type_main-medium">Булки</h2>
         <GroupIngredients ingredients={bunArr}/>
-        <h2 className="ingredients-title text_type_main-medium ">Соусы</h2>
+        <h2 ref={sauceRef} className="ingredients-title text text_type_main-medium ">Соусы</h2>
         <GroupIngredients ingredients={sauceArr}/>
-        <h2 className="ingredients-title text_type_main-medium ">Начинки</h2>
+        <h2 ref={meatRef} className="ingredients-title text text_type_main-medium ">Начинки</h2>
         <GroupIngredients ingredients={meatArr}/>
+         </section>
        </section>
      
     )

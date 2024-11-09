@@ -2,14 +2,14 @@
 
     width: 615px;
     height: 912px;
-    
-    overflow-x: hidden;
     &__list {
      justify-content: space-evenly;
      width: 100%;
      height: 56px;
      display: flex;
     }
+
+  
 
     
     &__nav-item {
@@ -87,3 +87,7 @@
     
 }
 
+.list-ingredients{
+   overflow-x: hidden;
+   height: 756px;
+}
