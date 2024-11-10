@@ -1,8 +1,10 @@
 import { ADD_INGREDIENT, SET_LOADING, SET_ERROR, TAB_SWITCH } from "../action/burgerIngredients";
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { burgerConstructorReducer } from "./builderBurger";
 import { detailsingredientReducer } from "./detailsIngredients";
 import { orderReducer } from "./order";
+import { thunk } from "redux-thunk";
+
 
 const initialState = {
     ingredients: [],
@@ -34,7 +36,12 @@ const rootReducer = combineReducers({
     order: orderReducer
   });
 
+  const composedEnhancers = compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f 
+);
+
 export const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()  
+  composedEnhancers
 );

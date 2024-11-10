@@ -27,7 +27,7 @@ export function GroupIngredients({ ingredients }) {
             <section className="burger-ingredients__group mt-6 mb-10">
                 {ingredients.map((ingredient) => (
                     <IngredientItems
-                        key={ingredient._id}
+                        key={ingredient.uniqueId}
                         ingredients={ingredient}
                         onClick={() => handleIngredientClick(ingredient)}
                     />

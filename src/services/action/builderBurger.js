@@ -1,12 +1,17 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const ADD_BUILDER_BURGER_INGREDIENT='ADD_BUILDER_BURGER_INGREDIENT';
-export const  REMOVE_INGREDIENT='REMOVE_INGREDIENT';
+export const REMOVE_INGREDIENT='REMOVE_INGREDIENT';
 export const REPLACE_BUN='REPLACE_BUN';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 
 
 export const addIngredient = (ingredientBurger) => ({
     type: ADD_BUILDER_BURGER_INGREDIENT,
-    ingredient: ingredientBurger
+    ingredient: {
+        ...ingredientBurger,
+        uniqueId: uuidv4()  
+    }
 });
 
 export const removeIngredient = (id) => ({

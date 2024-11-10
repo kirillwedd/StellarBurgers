@@ -7,7 +7,7 @@ import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-c
 import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 
 export function IngredientItems({ onClick, ingredients }) {
-    const { _id, name, price, image, type } = ingredients;
+    const { _id, name, price, image, type} = ingredients;
 
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
     
@@ -23,7 +23,7 @@ export function IngredientItems({ onClick, ingredients }) {
 
     const [, drag] = useDrag({
         type: "ingredient",
-        item: { price, image, name, _id, type },
+        item: { price, image, name, _id, type, uniqueId: ingredientsBurger. uniqueId },
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),

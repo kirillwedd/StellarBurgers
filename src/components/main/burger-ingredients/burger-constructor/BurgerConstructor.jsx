@@ -7,10 +7,11 @@ import { SelectedIngredient } from "./SelectIngredient";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { addIngredient, removeIngredient, replaceBun, moveIngredient } from "../../../../services/action/builderBurger";
-import { placeOrderFail, placeOrderRequest, placeOrderSuccess } from "../../../../services/action/order";
 import { Modal } from "../../../modal/Modal";
 import { OrderDetails } from "../../../modal/detail/OrderDetails";
 import { DragIngredient } from "./drag-ingredient/DragIngredient";
+import { v4 as uuidv4 } from 'uuid';
+import { placeOrderThunk } from "../../../../services/action/order";
 
 export function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -26,37 +27,22 @@ export function BurgerConstructor() {
         setShowModalOrder(false);
     };
 
-    const placeOrder = () => {
-        dispatch(placeOrderRequest());
+    const placeOrder = async () => {
         const orderData = {
             ingredients: [
                 bun ? bun._id : null,
                 ...ingredientsBurger.map(ingredient => ingredient._id),
-                bun ? bun._id : null
-            ]
+                bun ? bun._id : null,
+            ],
         };
 
-        fetch('https://norma.nomoreparties.space/api/orders', {
-            method: 'POST',
-            body: JSON.stringify(orderData),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Сеть ответила некорректно');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setOrderNumber(data.order.number);
-                dispatch(placeOrderSuccess(data.order.number, orderData.ingredients));
-                handleOrderClick();
-            })
-            .catch(err => {
-                dispatch(placeOrderFail(err.message));
-            });
+        try {
+            const orderNumber = await  dispatch(placeOrderThunk(orderData)); 
+            setOrderNumber(orderNumber); 
+            handleOrderClick(); 
+        } catch (err) {
+            console.error(err); 
+        }
     };
 
     const totalPrice = useMemo(() => {
@@ -81,20 +67,25 @@ export function BurgerConstructor() {
                 dispatch(replaceBun(item)); 
             }
         },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+        }),
     });
 
     const [, drop] = useDrop({
         accept: "ingredient",
         drop(item) {
             if (item.type !== 'bun') {
-                const { index, ...ingredientsBurger } = item
-                dispatch(addIngredient(ingredientsBurger));
+                const ingredientWithId = { ...item, uniqueId: uuidv4() };
+                dispatch(addIngredient(ingredientWithId));
             }
         },
     });
 
     return (
         <div className="burger-constructor">
+            
             <section className="mt-25" ref={dropBun}>
                 {bun ? (
                     <article className="burger-constructor__ingredient mb-4" key={bun._id}>
@@ -117,11 +108,11 @@ export function BurgerConstructor() {
                     {ingredientsBurger.length > 0 ? (
                         ingredientsBurger.map((ingredient, index) => (
                             <DragIngredient 
-                                key={ingredient._id} 
+                                key={ingredient.uniqueId} 
                                 ingredient={ingredient} 
                                 index={index} 
                                 moveIngredient={moveIngredients} 
-                                removeIngredient={() => dispatch(removeIngredient(ingredient._id))}
+                                removeIngredient={() => dispatch(removeIngredient(ingredient.uniqueId))}
                             />
                         ))
                     ) : (

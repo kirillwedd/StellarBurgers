@@ -7,13 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setError, setIngredients, setLoading } from './services/action/burgerIngredients';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-
-
-export const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+import { API_URL } from './apiConfig';
+import { request } from './utils/apiUtils';
 
 function App() {
   const dispatch = useDispatch();
-  const { ingredients, loading, error } = useSelector((state) => state.burgerIngredients);
+  const { ingredients , loading, error } = useSelector((state) => state.burgerIngredients);
 
   const buns=ingredients.filter(ingredient=> ingredient.type==="bun")
   const meat=ingredients.filter(ingredient=> ingredient.type==="main")
@@ -27,12 +26,7 @@ function App() {
   useEffect(() => {
     const fetchIngredients = async () => {
       try {
-        const response = await fetch(API_URL);
-
-        if (!response.ok) {
-          throw new Error('Ошибка сети: ' + response.statusText);
-        }
-        const data = await response.json();
+        const data = await request(`${API_URL}/ingredients`); 
         dispatch(setIngredients(data.data));
       } catch (err) {
         dispatch(setError(err.message));
