@@ -37,7 +37,7 @@ export function BurgerConstructor() {
         };
 
         try {
-            const orderNumber = await  dispatch(placeOrderThunk(orderData)); 
+            const orderNumber = await dispatch(placeOrderThunk(orderData)); 
             setOrderNumber(orderNumber); 
             handleOrderClick(); 
         } catch (err) {
@@ -60,23 +60,13 @@ export function BurgerConstructor() {
         dispatch(moveIngredient(fromIndex, toIndex));
     };
 
-    const [, dropBun] = useDrop({
-        accept: "ingredient",
-        drop(item) {
-            if (item.type === 'bun') {
-                dispatch(replaceBun(item)); 
-            }
-        },
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
-        }),
-    });
-
+    
     const [, drop] = useDrop({
         accept: "ingredient",
         drop(item) {
-            if (item.type !== 'bun') {
+            if (item.type === 'bun') {
+                dispatch(replaceBun(item));
+            } else {
                 const ingredientWithId = { ...item, uniqueId: uuidv4() };
                 dispatch(addIngredient(ingredientWithId));
             }
@@ -85,10 +75,9 @@ export function BurgerConstructor() {
 
     return (
         <div className="burger-constructor">
-            
-            <section className="mt-25" ref={dropBun}>
+            <section className="mt-25" ref={drop}>
                 {bun ? (
-                    <article className="burger-constructor__ingredient mb-4" key={bun._id}>
+                    <article className="burger-constructor__ingredient mb-4" key={bun._Id}>
                         <ConstructorElement
                             thumbnail={bun.image}
                             price={bun.price}
@@ -104,7 +93,7 @@ export function BurgerConstructor() {
                     </SelectedIngredient>
                 )}
 
-                <section ref={drop} className="burger-constructor__ingredients">
+                <section className="burger-constructor__ingredients">
                     {ingredientsBurger.length > 0 ? (
                         ingredientsBurger.map((ingredient, index) => (
                             <DragIngredient 
@@ -123,7 +112,7 @@ export function BurgerConstructor() {
                 </section>
 
                 {bun ? (
-                    <article className="burger-constructor__ingredient mb-4" key={bun._id}>
+                    <article className="burger-constructor__ingredient mb-4" key={bun.uniqueId}>
                         <ConstructorElement
                             thumbnail={bun.image}
                             price={bun.price}

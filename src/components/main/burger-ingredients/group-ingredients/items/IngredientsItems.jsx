@@ -23,7 +23,7 @@ export function IngredientItems({ onClick, ingredients }) {
 
     const [, drag] = useDrag({
         type: "ingredient",
-        item: { price, image, name, _id, type, uniqueId: ingredientsBurger. uniqueId },
+        item: { ...ingredients},
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
