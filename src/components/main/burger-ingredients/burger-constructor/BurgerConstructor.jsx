@@ -18,13 +18,14 @@ export function BurgerConstructor() {
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
     const [isShowModalOrder, setShowModalOrder] = useState(false);
     const [orderNumber, setOrderNumber] = useState(null);
-
+    
     const handleOrderClick = () => {
         setShowModalOrder(true);
     };
 
     const handleCloseModal = () => {
         setShowModalOrder(false);
+        setOrderNumber(null); 
     };
 
     const placeOrder = async () => {
@@ -33,7 +34,7 @@ export function BurgerConstructor() {
                 bun ? bun._id : null,
                 ...ingredientsBurger.map(ingredient => ingredient._id),
                 bun ? bun._id : null,
-            ],
+            ] 
         };
 
         try {
@@ -48,7 +49,7 @@ export function BurgerConstructor() {
     const totalPrice = useMemo(() => {
         let price = 0;
         if (bun) {
-            price += bun.price * 2; 
+            price += bun.price * 2;  
         }
         ingredientsBurger.forEach(ingredient => {
             price += ingredient.price; 
@@ -59,7 +60,6 @@ export function BurgerConstructor() {
     const moveIngredients = (fromIndex, toIndex) => {
         dispatch(moveIngredient(fromIndex, toIndex));
     };
-
     
     const [, drop] = useDrop({
         accept: "ingredient",
@@ -77,7 +77,7 @@ export function BurgerConstructor() {
         <div className="burger-constructor">
             <section className="mt-25" ref={drop}>
                 {bun ? (
-                    <article className="burger-constructor__ingredient mb-4" key={bun._Id}>
+                    <article className="burger-constructor__ingredient mb-4" key={bun._id}>
                         <ConstructorElement
                             thumbnail={bun.image}
                             price={bun.price}
@@ -131,7 +131,7 @@ export function BurgerConstructor() {
 
             <div className="burger-constructor__info-price mt-10 mr-4">
                 <div className="burger-constructor__price text_type_digits-medium mr-10">{totalPrice}<CurrencyIcon /></div>
-                <Button onClick={placeOrder} disabled={ingredientsBurger.length === 0}>Оформить заказ</Button>
+                <Button onClick={placeOrder} disabled={ingredientsBurger.length === 0 || !bun}>Оформить заказ</Button>
             </div>
 
             {isShowModalOrder && 
