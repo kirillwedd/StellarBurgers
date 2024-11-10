@@ -3,12 +3,17 @@ import { REPLACE_BUN } from "../action/builderBurger";
 
 const initialState = {
     ingredientsBurger: [],
-    bun:null
+    bun:null,
+    
 };
 
 export const burgerConstructorReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_BUILDER_BURGER_INGREDIENT: 
+        if (!action.ingredient || !action.ingredient._id) {
+            
+            return state; 
+        }
     return { 
         ...state, 
         ingredientsBurger: [...state.ingredientsBurger, action.ingredient]  
@@ -24,17 +29,19 @@ export const burgerConstructorReducer = (state = initialState, action) => {
             ingredientsBurger: state.ingredientsBurger.filter(ingredient => ingredient._id !== action.payload.id)
         
         }
-        case MOVE_INGREDIENT:
-            const { dragIndex, hoverIndex } = action.payload;
-            const newIngredients = [...state.ingredientsBurger];
-
-            const [movedIngredient] = newIngredients.splice(dragIndex, 1);
-            newIngredients.splice(hoverIndex, 0, movedIngredient);
-
+        case MOVE_INGREDIENT: {
+            const { fromIndex, toIndex } = action;
+            if (fromIndex === toIndex) return state; 
+        
+            const updatedIngredients = [...state.ingredientsBurger];
+            const [movedIngredient] = updatedIngredients.splice(fromIndex, 1); 
+            updatedIngredients.splice(toIndex, 0, movedIngredient); 
+        
             return {
                 ...state,
-                ingredientsBurger: newIngredients,
+                ingredientsBurger: updatedIngredients,
             };
+        }
         default:
             return state;
     }

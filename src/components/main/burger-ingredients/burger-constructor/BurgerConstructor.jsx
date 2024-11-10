@@ -1,4 +1,4 @@
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import '../burger-constructor/BurgerConstructor.scss';
 import { useMemo, useState } from "react";
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import { addIngredient, removeIngredient, replaceBun, moveIngredient } from "../
 import { placeOrderFail, placeOrderRequest, placeOrderSuccess } from "../../../../services/action/order";
 import { Modal } from "../../../modal/Modal";
 import { OrderDetails } from "../../../modal/detail/OrderDetails";
+import { DragIngredient } from "./drag-ingredient/DragIngredient";
 
 export function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -18,11 +19,11 @@ export function BurgerConstructor() {
     const [orderNumber, setOrderNumber] = useState(null);
 
     const handleOrderClick = () => {
-      setShowModalOrder(true); 
+        setShowModalOrder(true);
     };
-  
+
     const handleCloseModal = () => {
-      setShowModalOrder(false);
+        setShowModalOrder(false);
     };
 
     const placeOrder = () => {
@@ -42,20 +43,20 @@ export function BurgerConstructor() {
                 'Content-Type': 'application/json'
             },
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Сеть ответила некорректно');
-            }
-            return response.json();
-        })
-        .then(data => {
-            setOrderNumber(data.order.number);
-            dispatch(placeOrderSuccess(data.order.number, orderData.ingredients));
-            handleOrderClick();
-        })
-        .catch(err => {
-            dispatch(placeOrderFail(err.message));
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Сеть ответила некорректно');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setOrderNumber(data.order.number);
+                dispatch(placeOrderSuccess(data.order.number, orderData.ingredients));
+                handleOrderClick();
+            })
+            .catch(err => {
+                dispatch(placeOrderFail(err.message));
+            });
     };
 
     const totalPrice = useMemo(() => {
@@ -68,6 +69,10 @@ export function BurgerConstructor() {
         });
         return price; 
     }, [bun, ingredientsBurger]);
+
+    const moveIngredients = (fromIndex, toIndex) => {
+        dispatch(moveIngredient(fromIndex, toIndex));
+    };
 
     const [, dropBun] = useDrop({
         accept: "ingredient",
@@ -82,16 +87,11 @@ export function BurgerConstructor() {
         accept: "ingredient",
         drop(item) {
             if (item.type !== 'bun') {
-                dispatch(addIngredient(item));
+                const { index, ...ingredientsBurger } = item
+                dispatch(addIngredient(ingredientsBurger));
             }
         },
     });
-
-    const moveIngredient = (dragIndex, hoverIndex) => {
-        dispatch(moveIngredient(dragIndex, hoverIndex));
-    };
-
-  
 
     return (
         <div className="burger-constructor">
@@ -116,17 +116,13 @@ export function BurgerConstructor() {
                 <section ref={drop} className="burger-constructor__ingredients">
                     {ingredientsBurger.length > 0 ? (
                         ingredientsBurger.map((ingredient, index) => (
-                            <article className="burger-constructor__ingredient mb-4" key={ingredient._id}>
-                                <DragIcon onClick={() => handleIngredientClick(ingredient)} />
-                                <ConstructorElement
-                                    thumbnail={ingredient.image}
-                                    price={ingredient.price}
-                                    extraClass={'ml-2'}
-                                    isLocked={false}
-                                    text={ingredient.name}
-                                    handleClose={() => dispatch(removeIngredient(ingredient._id))}
-                                />
-                            </article>
+                            <DragIngredient 
+                                key={ingredient._id} 
+                                ingredient={ingredient} 
+                                index={index} 
+                                moveIngredient={moveIngredients} 
+                                removeIngredient={() => dispatch(removeIngredient(ingredient._id))}
+                            />
                         ))
                     ) : (
                         <SelectedIngredient extraClass={"mb-4"} type="middle">
@@ -155,10 +151,7 @@ export function BurgerConstructor() {
 
             <div className="burger-constructor__info-price mt-10 mr-4">
                 <div className="burger-constructor__price text_type_digits-medium mr-10">{totalPrice}<CurrencyIcon /></div>
-                {ingredientsBurger.length > 0 ? 
-                    <Button onClick={placeOrder}>Оформить заказ</Button> : 
-                    <Button disabled onClick={placeOrder}>Оформить заказ</Button>
-                }
+                <Button onClick={placeOrder} disabled={ingredientsBurger.length === 0}>Оформить заказ</Button>
             </div>
 
             {isShowModalOrder && 
