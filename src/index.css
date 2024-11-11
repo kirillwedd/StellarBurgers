@@ -1,5 +1,8 @@
 #root {
+  text-align: center;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  margin: 0;
 }
