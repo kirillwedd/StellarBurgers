@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addIngredient, removeIngredient, replaceBun, moveIngredient } from "../../../../services/action/builderBurger";
 import { Modal } from "../../../modal/Modal";
 import { OrderDetails } from "../../../modal/detail/OrderDetails";
-import { DragIngredient } from "./drag-ingredient/DragIngredient";
 import { v4 as uuidv4 } from 'uuid';
 import { placeOrderThunk } from "../../../../services/action/order";
+import { DragIngredient } from "./drag-ingredient/dragIngredient";
 
 export function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -143,6 +143,3 @@ export function BurgerConstructor() {
     );
 }
 
-BurgerConstructor.propTypes = {
-    ingredientsBurger: PropTypes.arrayOf(ingredientType).isRequired,
-};

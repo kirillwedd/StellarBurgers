@@ -1,5 +1,6 @@
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css'
 import statusOrder  from '../../../../images/done.webp'
+import PropTypes from 'prop-types';
 export function OrderDetails({numberOrder}){
     return (
          <article className="modal__information information-order">
@@ -14,3 +15,7 @@ export function OrderDetails({numberOrder}){
     )
 }
 
+
+OrderDetails.propTypes={
+   number: PropTypes.string
+}

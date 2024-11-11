@@ -1,6 +1,8 @@
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
+import PropTypes from 'prop-types';
+import { ingredientType } from "../../../../../utils/types";
 
 export const DragIngredient = ({ ingredient, index, moveIngredient, removeIngredient }) => {
     const ref =useRef();
@@ -64,4 +66,12 @@ export const DragIngredient = ({ ingredient, index, moveIngredient, removeIngred
             />
         </article>
     );
+};
+
+DragIngredient.propTypes = {
+    ingredient: PropTypes.arrayOf(ingredientType).isRequired,
+    index: PropTypes.number,
+    moveIngredient: PropTypes.func,
+    removeIngredient: PropTypes.func
+
 };

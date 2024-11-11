@@ -1,4 +1,5 @@
 import '../../burger-ingredients/burger-constructor/BurgerConstructor.scss'
+import PropTypes from 'prop-types';
 
 export function SelectedIngredient({type, children, extraClass}){
     return(
@@ -7,4 +8,10 @@ export function SelectedIngredient({type, children, extraClass}){
             <p className=''>{children}</p>
         </article>
     )
+}
+
+SelectedIngredient.PropTypes={
+    type: PropTypes.string.isRequired,
+    children: PropTypes.string,
+    extraClass: PropTypes.string
 }

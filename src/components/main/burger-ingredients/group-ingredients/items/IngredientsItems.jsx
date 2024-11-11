@@ -44,12 +44,6 @@ export function IngredientItems({ onClick, ingredients }) {
 }
 
 IngredientItems.propTypes = {
-    ingredients: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-    }).isRequired,
+    ingredients: PropTypes.arrayOf(ingredientType).isRequired,
     onClick: PropTypes.func,
 };
