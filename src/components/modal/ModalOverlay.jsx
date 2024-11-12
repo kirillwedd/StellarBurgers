@@ -1,22 +1,21 @@
-import '../modal/Modal.scss'
+import styles from '../modal/Modal.module.scss'
 import '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css'
 import '../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css'
 import PropTypes from 'prop-types';
 
-export function ModalOverlay({onClose, children}){
+export function ModalOverlay({ children}){
     
-    const handleOverlayClick = () => {
-            onClose();
-    };
+   
 
     return(
-        <div className="modal-overlay" onClick={handleOverlayClick}>
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
             {children}
+            </div>
         </div>
     )
 }
 
 ModalOverlay.propTypes={
-    onClose: PropTypes.func.isRequired,
-    children: PropTypes.node,
+    children: PropTypes.node
 }

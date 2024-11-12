@@ -1,8 +1,6 @@
 import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import '../burger-constructor/BurgerConstructor.scss';
+import styles from '../burger-constructor/BurgerConstructor.module.scss';
 import { useMemo, useState } from "react";
-import PropTypes from 'prop-types';
-import { ingredientType } from "../../../../utils/types";
 import { SelectedIngredient } from "./SelectIngredient";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,8 +8,8 @@ import { addIngredient, removeIngredient, replaceBun, moveIngredient } from "../
 import { Modal } from "../../../modal/Modal";
 import { OrderDetails } from "../../../modal/detail/OrderDetails";
 import { v4 as uuidv4 } from 'uuid';
-import { placeOrderThunk } from "../../../../services/action/order";
 import { DragIngredient } from "./drag-ingredient/dragIngredient";
+import { placeOrderThunk } from "../../../../services/action/thunk/orderActions";
 
 export function BurgerConstructor() {
     const dispatch = useDispatch();
@@ -74,10 +72,10 @@ export function BurgerConstructor() {
     });
 
     return (
-        <div className="burger-constructor">
+        <div className={styles.burgerConstructor}>
             <section className="mt-25" ref={drop}>
                 {bun ? (
-                    <article className="burger-constructor__ingredient mb-4" key={bun._id}>
+                    <article className={`${styles.burgerConstructor__ingredient} mb-4`} key={bun._id}>
                         <ConstructorElement
                             thumbnail={bun.image}
                             price={bun.price}
@@ -93,7 +91,7 @@ export function BurgerConstructor() {
                     </SelectedIngredient>
                 )}
 
-                <section className="burger-constructor__ingredients">
+                <section className={styles.burgerConstructor__ingredients}>
                     {ingredientsBurger.length > 0 ? (
                         ingredientsBurger.map((ingredient, index) => (
                             <DragIngredient 
@@ -112,7 +110,7 @@ export function BurgerConstructor() {
                 </section>
 
                 {bun ? (
-                    <article className="burger-constructor__ingredient mb-4" key={bun.uniqueId}>
+                    <article className={`${styles.burgerConstructor__ingredient} mb-4`} key={bun.uniqueId}>
                         <ConstructorElement
                             thumbnail={bun.image}
                             price={bun.price}
@@ -129,9 +127,9 @@ export function BurgerConstructor() {
                 )}
             </section>
 
-            <div className="burger-constructor__info-price mt-10 mr-4">
-                <div className="burger-constructor__price text_type_digits-medium mr-10">{totalPrice}<CurrencyIcon /></div>
-                <Button onClick={placeOrder} disabled={ingredientsBurger.length === 0 || !bun}>Оформить заказ</Button>
+            <div className={`${styles.burgerConstructor__infoPrice} mt-10 mr-4`}>
+                <div className={`${styles.burgerConstructor__price} text_type_digits-medium mr-10`}>{totalPrice}<CurrencyIcon /></div>
+                <Button htmlType="submit" onClick={placeOrder} disabled={ingredientsBurger.length === 0 || !bun}>Оформить заказ</Button>
             </div>
 
             {isShowModalOrder && 

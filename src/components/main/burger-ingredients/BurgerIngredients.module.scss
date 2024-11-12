@@ -1,4 +1,4 @@
-.burger-ingredients {
+.burgerIngredients {
 
     width: 615px;
     height: 912px;
@@ -39,7 +39,7 @@
    
 }
 
-.group-ingredients-title {
+.groupIngredientsTitle {
     color: white;
     &__title{
         width: 600px;
@@ -48,7 +48,7 @@
     }
 }
 
-.ingredients-title{
+.ingredientsTitle{
     width: 600px;
     height: 30px;
     text-align: left;
@@ -56,13 +56,13 @@
    
 }
 
-.main-burger {
+.mainBurger {
     display: flex;
     justify-content: center;
-    gap:40px
+    gap:40px;
 }
 
-.burger-item {  
+.burgerItem {  
     &__image{
         width: 240px;
         height: 120px;
@@ -83,7 +83,7 @@
     
 }
 
-.list-ingredients{
+.listIngredients{
    overflow-x: hidden;
    height: 756px;
 }

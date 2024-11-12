@@ -1,6 +1,4 @@
 import { v4 as uuid4 } from 'uuid';
-import { request } from '../../utils/apiUtils';
-import { API_URL } from '../../apiConfig';
 
 export const ADD_INGREDIENT= 'INCREASE_INGREDIENT';
 export const TAB_SWITCH= 'TAB_SWITCH';
@@ -32,19 +30,6 @@ export const setIngredients = (items) => {
     tabActive: active
   })
 
-  export const fetchIngredients = () => {
-    return async (dispatch) => {
-      dispatch(setLoading(true));
-      try {
-        const data = await request(`${API_URL}/ingredients`); 
-        dispatch(setIngredients(data.data));
-      } catch (err) {
-        dispatch(setError(err.message));
-      } finally {
-        dispatch(setLoading(false));
-      }
-    }
-  };
-
+  
 
   

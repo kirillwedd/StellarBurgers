@@ -1,6 +1,7 @@
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef } from "react";
 import { useDrop, useDrag } from "react-dnd";
+import styles from '../../burger-constructor/BurgerConstructor.module.scss'
 import PropTypes from 'prop-types';
 import { ingredientType } from "../../../../../utils/types";
 
@@ -54,7 +55,7 @@ export const DragIngredient = ({ ingredient, index, moveIngredient, removeIngred
 
 
     return (
-        <article ref={ref} className={`burger-constructor__ingredient mb-4 ${isDragging ? 'dragging' : ''}`}>
+        <article ref={ref} className={`${styles.burgerConstructor__ingredient} mb-4 ${isDragging ? 'dragging' : ''}`}>
             <DragIcon />
             <ConstructorElement 
                 thumbnail={ingredient.image}
@@ -69,7 +70,7 @@ export const DragIngredient = ({ ingredient, index, moveIngredient, removeIngred
 };
 
 DragIngredient.propTypes = {
-    ingredient: PropTypes.arrayOf(ingredientType).isRequired,
+    ingredient: ingredientType.isRequired,
     index: PropTypes.number,
     moveIngredient: PropTypes.func,
     removeIngredient: PropTypes.func

@@ -34,8 +34,8 @@
 
 
 
-.information-ingredients{
-    &__wrapper-image{
+.informationIngredients{
+    &__wrapperImage{
         width: 520px;
         height: 240px;
     }
@@ -50,7 +50,7 @@
     }
 }
 
-.nutriens-item{
+.nutriensItem{
     width: 120px;
     display: flex;
     flex-direction: column;
@@ -67,36 +67,47 @@
  
 }
 
-.information-order{
+.informationOrder{
     width: 520px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    &__order-number{        
+    &__orderNumber{        
         text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25),
                      0px 0px 8px rgba(51, 51, 255, 0.25), 
                      0px 4px 32px rgba(51, 51, 255, 0.5);
     }
 
-    &__order-status{
+    &__orderStatus{
         width: 120px;
         height: 120px; 
     }
 
-    &__order-image{
+    &__orderImage{
         width: 120px;
         height: 120px;
     }
 }
 
-.modal-overlay {
-    width: 720px;
-    border-radius: 40px;
-    background: #1C1C21; 
-    border-width: 0px;
+.modalOverlay {
     position: fixed;
-    left: 35%;
-    top: 15%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
     z-index: 100; 
+}
+
+.modalContent {
+    width: 720px; /* Ширина модального окна */
+    border-radius: 40px; /* Закругление углов */
+    background: #1C1C21; /* Цвет фона модального окна */
+    border: none; /* Убирает рамку */
+    padding: 20px; /* Отступ внутри модального окна */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Добавляет тень для глубины */
 }

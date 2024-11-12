@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import PropTypes from 'prop-types';
 import { createPortal } from "react-dom";
 import { ModalOverlay } from "./ModalOverlay";
-import '../modal/Modal.scss';
+import styles from'../modal/Modal.module.scss';
 
 export function Modal({modalTitle, onClose, children}){
     const handleKeyDown = (event) => {
@@ -26,9 +26,9 @@ export function Modal({modalTitle, onClose, children}){
     return createPortal(
          <>     
             <ModalOverlay onClose={onClose}> 
-            <header className="modal__header mt-10 mr-10 ml-10" onClick={handleContentClick}>
-                <h2 className="modal__title text_type_main-large text" >{modalTitle}</h2>
-                <div className="modal_close" onClick={onClose}><CloseIcon/></div>
+            <header className={`${styles.modal__header} mt-10 mr-10 ml-10`} onClick={handleContentClick}>
+                <h2 className={`${styles.modal__title} text_type_main-large text`} >{modalTitle}</h2>
+                <div className={styles.modal_close} onClick={onClose}><CloseIcon/></div>
             </header>
              {children}
             </ModalOverlay>

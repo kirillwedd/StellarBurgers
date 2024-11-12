@@ -9,6 +9,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { API_URL } from './apiConfig';
 import { request } from './utils/apiUtils';
+import styles from './components/main/burger-ingredients/BurgerIngredients.module.scss'
 
 function App() {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ function App() {
     <>
       <AppHeader/>
  
-        <main className="main-burger">
+        <main className={styles.mainBurger}>
         {loading 
         ? <div>Загрузка...</div> 
         : error 

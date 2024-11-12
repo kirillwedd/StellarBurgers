@@ -2,6 +2,7 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import PropTypes from 'prop-types';
 import { ingredientType } from "../../../../../utils/types";
 import { useDrag } from "react-dnd";
+import styles from '../../../burger-ingredients/BurgerIngredients.module.scss'
 import { useSelector } from "react-redux";
 import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
@@ -12,12 +13,12 @@ export function IngredientItems({ onClick, ingredients }) {
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
     
     const countIngredients = (ingredientId, type) => {
-        // Если это булка, то возвращаем 2, если она совпадает с текущим ингредиентом
+       
         if (type === "bun" && bun && bun._id === ingredientId) {
             return 2;
         }
         
-        // Возвращаем количество остальных ингредиентов
+       
         return ingredientsBurger.filter(ingredient => ingredient._id === ingredientId).length;
     };
 
@@ -30,20 +31,20 @@ export function IngredientItems({ onClick, ingredients }) {
     });
 
     return (
-        <article className="burger-item__counter" ref={drag}>
+        <article className={styles.burgerItem__counter} ref={drag}>
             <Counter count={countIngredients(_id, type)} /> 
-            <article className="burger-ingredients__item burger-item" onClick={onClick}>
-                <img src={image} alt={name} className="burger-item__image ml-4 mr-4" />
-                <div className="burger-item__price text_type_digits-default mt-1">
+            <article className={`${styles.burgerIngredients__item} ${styles.burgerItem}`} onClick={onClick}>
+                <img src={image} alt={name} className={`${styles.burgerItem__image} ml-4 mr-4`} />
+                <div className={`${styles.burgerItem__price} text_type_digits-default mt-1`}>
                     {price} <CurrencyIcon className="ml-2"/>
                 </div>
-                <div className="burger-item__title text_type_main-default mt-1">{name}</div>    
+                <div className={`${styles.burgerItem__title} text_type_main-default mt-1`}>{name}</div>    
             </article>
         </article>
     );
 }
 
 IngredientItems.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientType).isRequired,
+    ingredients: ingredientType.isRequired,
     onClick: PropTypes.func,
 };

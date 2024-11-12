@@ -1,10 +1,11 @@
 import { GroupIngredients } from "./group-ingredients/GroupIngredients";
-import '../burger-ingredients/BurgerIngredients.scss'
+import '../burger-ingredients/BurgerIngredients.module.scss'
 import '../../navigation/Navigation.scss'
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import PropTypes from 'prop-types';
 import { ingredientType } from "../../../utils/types";
+import styles from '../burger-ingredients/BurgerIngredients.module.scss';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setTabActive} from "../../../services/action/burgerIngredients";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,24 +54,25 @@ useEffect(() => {
 }, []);
 
     return(
-       <section  className="burger-ingredients">
-        <h1 className="burger-ingredients__title text_type_main-large">Собери бургер</h1>
-         <nav className="burger-ingredients__list mt-5 mb-10" ons>
+       <section  className={styles.burgerIngredients}>
+        <h1 className={`${styles.burgerIngredients__title} text_type_main-large`}>Собери бургер</h1>
+         <nav className={`${styles.burgerIngredients__list} mt-5 mb-10`}>
            <Tab value="bun" active={activeTab==='bun'} onClick={handleTabClick}>Булки</Tab>
            <Tab value="sauce" active={activeTab==='sauce'} onClick={handleTabClick}>Соусы</Tab>
            <Tab value="meat" active={activeTab==='meat'} onClick={handleTabClick}>Начинки</Tab>
          </nav>
-         <section className="list-ingredients custom-scroll" onScroll={handleScroll}>
-        <h2 ref={bunRef} className="ingredients-title text text_type_main-medium">Булки</h2>
+         <section className={`${styles.listIngredients} custom-scroll`} onScroll={handleScroll}>
+        <h2 ref={bunRef} className={`${styles.ingredientsTitle} text text_type_main-medium`}>Булки</h2>
         <GroupIngredients ingredients={bunArr}/>
-        <h2 ref={sauceRef} className="ingredients-title text text_type_main-medium ">Соусы</h2>
+        <h2 ref={sauceRef} className={`${styles.ingredientsTitle} text text_type_main-medium`}>Соусы</h2>
         <GroupIngredients ingredients={sauceArr}/>
-        <h2 ref={meatRef} className="ingredients-title text text_type_main-medium ">Начинки</h2>
+        <h2 ref={meatRef} className={`${styles.ingredientsTitle} text text_type_main-medium`}>Начинки</h2>
         <GroupIngredients ingredients={meatArr}/>
          </section>
        </section>
      
     )
+
 }
 
 BurgerIngredients.propTypes = {
@@ -79,28 +81,3 @@ BurgerIngredients.propTypes = {
   sauceArr: PropTypes.arrayOf(ingredientType) 
 };
 
-BurgerIngredients.defaultProps={
-  bunArr:PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        __v:0
-      }
-    )
-  ),
-
-  meatArr:PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        __v:0
-      }
-    )
-  ),
-
-  sauceArr:PropTypes.arrayOf(
-    PropTypes.shape(
-      {
-        __v:0
-      }
-    )
-  )
-}

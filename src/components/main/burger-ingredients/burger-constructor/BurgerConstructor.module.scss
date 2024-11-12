@@ -1,5 +1,5 @@
 
-.burger-constructor {
+.burgerConstructor {
     width: 600px;
     height: 912px;
     height: max-content;
@@ -8,13 +8,12 @@
    
     &__ingredients{
         width: 600px;
-        max-height: 656px;
-       
+        max-height: 656px; 
         overflow-y: auto;
        
     }
 
-    &__info-price{
+    &__infoPrice{
         display: flex;
         justify-content: end;
         align-items: center;
@@ -28,7 +27,7 @@
 }
 
 .burger{
-    &__plug-element{
+    &__plugElement{
         padding: 16px 24px;
         display: inline-block;
         background: #2f2f37;
@@ -43,15 +42,15 @@
         box-sizing: border-box;
     }
 
-    &__plug-element--top {
+    &__plugElement_top {
         border-radius: 88px 88px 40px 40px;
     }
 
-    &__plug-element--bottom {
+    &__plugElement_bottom {
         border-radius: 40px 40px 88px 88px;
     }
 
-    &__plug-element--middle {
+    &__plugElement_middle {
         border-radius: 40px;
     }
 
