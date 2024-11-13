@@ -1,5 +1,6 @@
+import { API_URL } from "../../../apiConfig";
+import { request } from "../../../utils/apiUtils";
 import { setError, setIngredients, setLoading } from "../burgerIngredients";
-
 
 export const fetchIngredients = () => {
     return async (dispatch) => {

@@ -10,6 +10,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { API_URL } from './apiConfig';
 import { request } from './utils/apiUtils';
 import styles from './components/main/burger-ingredients/BurgerIngredients.module.scss'
+import { fetchIngredients } from './services/action/thunk/ingredientsActions';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,18 +26,7 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        const data = await request(`${API_URL}/ingredients`); 
-        dispatch(setIngredients(data.data));
-      } catch (err) {
-        dispatch(setError(err.message));
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
-
-    fetchIngredients();
+   dispatch(fetchIngredients())
   }, [dispatch]);
 
   return (
