@@ -1,47 +1,54 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { IngredientItems } from "./items/IngredientsItems";
+import { clearDetailsIngredient, setDetailsIngredient } from '../../../../services/action/detailsIngredients';
+import { ingredientType } from "../../../../utils/types";
+import styles from '../../../main/burger-ingredients/BurgerIngredients.module.scss'
+import { useState } from 'react';
 import { Modal } from "../../../modal/Modal";
 import { IngredientsDetails } from "../../../modal/detail/IngredientsDetails";
-import PropTypes from 'prop-types';
-import { ingredientType } from "../../../../utils/types";
 
-export function GroupIngredients({ingredients}) {
-    const [isShowModal, setShowModal] = useState(false)
-    const [selectedIngredient, setSelectedIngredient] = useState(null);
-   
-
+export function GroupIngredients({ ingredients }) {
+    const dispatch = useDispatch();
+    const selectedIngredient = useSelector((state) => state.details.selectedIngredient);
+    const [isShowModal, setShowModal] = useState(false);
+    
     const handleIngredientClick = (ingredient) => {
-        setSelectedIngredient(ingredient);
+        dispatch(setDetailsIngredient(ingredient));
         setShowModal(true);
     };
 
     const handleCloseModal = () => {
-        setSelectedIngredient(null);
+        dispatch(clearDetailsIngredient());
         setShowModal(false);
     };
 
     return (
         <>
-        <section className="burger-ingredients__group mt-6 mb-10">
-            {
-                ingredients.map((ingredient)=>(
-                    <IngredientItems key={ingredient._id} title={ingredient.name}
-                                     price={ingredient.price} src={ingredient.image}
-                                     onClick={()=>handleIngredientClick(ingredient)}
-                    />      
-                ))
-            }
-        </section>
+            <section className={`${styles.burgerIngredients__group} mt-6 mb-10`}>
+                {ingredients.length === 0 ? (
+                    <p>Нет доступных ингредиентов.</p>
+                ) : (
+                    ingredients.map((ingredient) => (
+                        <IngredientItems
+                            key={ingredient.uniqueId}
+                            ingredients={ingredient}
+                            onClick={() => handleIngredientClick(ingredient)}
+                        />
+                    ))
+                )}
+            </section>
 
-        {isShowModal && (
+            {isShowModal && (
                 <Modal modalTitle={"Детали ингредиента"} onClose={handleCloseModal}>
-                    <IngredientsDetails ingredient={selectedIngredient}/>
+                    <IngredientsDetails ingredient={selectedIngredient || {}} />
                 </Modal>
             )}
         </>
-    )
+    );
 }
 
-GroupIngredients.propTypes={
-    ingredients:PropTypes.arrayOf(ingredientType)      
-}
+GroupIngredients.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientType)
+};
+
