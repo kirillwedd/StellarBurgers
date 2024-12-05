@@ -1,0 +1,41 @@
+.profile {
+    display: flex;
+}
+
+.profileNavigate {
+    display: flex;
+    flex-direction: column;
+    &__navLink{
+        width: 320px;
+        height: 64px;
+        color: #8585AD;
+        text-decoration: none;
+        display: inline-block;
+    }
+}
+
+.profileChanges{
+    width: 480px;
+}
+
+.cancel {
+    color: #4C4CFF;
+    background: transparent;
+    border-width: 0px;
+    
+}
+
+.actions {
+    display: flex;
+    justify-content: end;
+}
+
+.textInform {
+    text-align: left;
+    color: #8585AD;
+}
+
+.active {
+    color: white;
+}
+
