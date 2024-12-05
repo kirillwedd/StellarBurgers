@@ -10,12 +10,14 @@ import { OrderDetails } from "../../../modal/detail/OrderDetails";
 import { v4 as uuidv4 } from 'uuid';
 import { DragIngredient } from "./drag-ingredient/dragIngredient";
 import { placeOrderThunk } from "../../../../services/action/thunk/orderActions";
+import { useNavigate } from "react-router-dom";
 
 export function BurgerConstructor() {
     const dispatch = useDispatch();
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
     const [isShowModalOrder, setShowModalOrder] = useState(false);
     const [orderNumber, setOrderNumber] = useState(null);
+    const navigate=useNavigate();
     
     const handleOrderClick = () => {
         setShowModalOrder(true);
@@ -27,6 +29,12 @@ export function BurgerConstructor() {
     };
 
     const placeOrder = async () => {
+        if(localStorage.getItem('isAuthorized')==='false')
+        {
+                navigate('/login');
+        }
+        else 
+        {   
         const orderData = {
             ingredients: [
                 bun ? bun._id : null,
@@ -42,7 +50,9 @@ export function BurgerConstructor() {
         } catch (err) {
             console.error(err); 
         }
-    };
+    }
+    
+};
 
     const totalPrice = useMemo(() => {
         let price = 0;

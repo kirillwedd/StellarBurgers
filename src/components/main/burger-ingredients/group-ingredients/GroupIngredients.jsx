@@ -1,27 +1,52 @@
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { IngredientItems } from "./items/IngredientsItems";
-import { clearDetailsIngredient, setDetailsIngredient } from '../../../../services/action/detailsIngredients';
 import { ingredientType } from "../../../../utils/types";
-import styles from '../../../main/burger-ingredients/BurgerIngredients.module.scss'
-import { useState } from 'react';
+import styles from '../../../main/burger-ingredients/BurgerIngredients.module.scss';
+import { useEffect, useState } from 'react';
 import { Modal } from "../../../modal/Modal";
 import { IngredientsDetails } from "../../../modal/detail/IngredientsDetails";
+import { useNavigate, useParams } from 'react-router-dom';
 
 export function GroupIngredients({ ingredients }) {
-    const dispatch = useDispatch();
-    const selectedIngredient = useSelector((state) => state.details.selectedIngredient);
+    const [selectedIngredient, setSelectedIngredient] = useState(null);
     const [isShowModal, setShowModal] = useState(false);
-    
+    const { _id } = useParams(); 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (_id) {
+            const ingredient = ingredients.find(ingredient => ingredient._id === _id);
+            if (ingredient) {
+                setSelectedIngredient(ingredient);
+                setShowModal(true);
+            } else {
+                navigate('/'); 
+            }
+        }
+    }, [_id, ingredients, navigate]);
+
     const handleIngredientClick = (ingredient) => {
-        dispatch(setDetailsIngredient(ingredient));
-        setShowModal(true);
+        setSelectedIngredient(ingredient);
+        setShowModal(true)
     };
 
     const handleCloseModal = () => {
-        dispatch(clearDetailsIngredient());
         setShowModal(false);
+        setSelectedIngredient(null);
+        navigate('/'); 
     };
+
+    useEffect(() => {
+        if (isShowModal) {
+            const handlePopState = () => {
+                setShowModal(false);
+            };
+
+            window.addEventListener('popstate', handlePopState);
+            return () => window.removeEventListener('popstate', handlePopState);
+        }
+    }, [isShowModal]);
 
     return (
         <>
@@ -41,7 +66,7 @@ export function GroupIngredients({ ingredients }) {
 
             {isShowModal && (
                 <Modal modalTitle={"Детали ингредиента"} onClose={handleCloseModal}>
-                    <IngredientsDetails ingredient={selectedIngredient || {}} />
+                    <IngredientsDetails ingredient={selectedIngredient} />
                 </Modal>
             )}
         </>
@@ -51,4 +76,3 @@ export function GroupIngredients({ ingredients }) {
 GroupIngredients.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientType)
 };
-
