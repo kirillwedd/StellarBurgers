@@ -1,9 +1,11 @@
-import {  REGISTER_USER, REGISTER_USER_FAIL,  LOGIN_USER, LOGIN_FAIL, LOGOUT, UPDATE_USER_TOKEN_FAIL, FORGOT_PASSWORD } from "../action/user";
+import {  REGISTER_USER, REGISTER_USER_FAIL,  LOGIN_USER, LOGIN_FAIL, LOGOUT, UPDATE_USER_TOKEN_FAIL, FORGOT_PASSWORD, LOGIN_REQUEST } from "../action/user";
 
 const initialState = {
     isForgotPassword: false,
     loading: false,
     error: null,
+    isAuthenticated: false,
+    user: null,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -23,6 +25,12 @@ export const userReducer = (state = initialState, action) => {
                 error: action.payload,
                 loading: false,
             };
+         case LOGIN_REQUEST:
+            return {
+                ...state,
+                isAuthenticated: true,
+                user: action.payload
+            }
         case LOGIN_USER:
             return {
                 ...state,
@@ -45,14 +53,7 @@ export const userReducer = (state = initialState, action) => {
             };
         case LOGOUT:
             return {
-                ...state,
-                user: {
-                    email: '',
-                    name: '',
-                },
-                accessToken: '',
-                refreshToken: '',
-                isAuthenticated: false,
+              state
             };
         case FORGOT_PASSWORD:
             return {

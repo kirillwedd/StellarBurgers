@@ -2,7 +2,7 @@
 import { json } from "react-router-dom";
 import { API_URL } from "../../../apiConfig";
 import { request } from "../../../utils/apiUtils";
-import {  registerUserFail, loginUserFail, updateUserTokenFail } from "../user";
+import {  registerUserFail, loginUserFail, updateUserTokenFail, loginRequest } from "../user";
 
 
 
@@ -48,8 +48,6 @@ export const registerUserAction = (userData, navigate) => {
 
 export const loginUserAction = (userData, navigate) => {
 
-    
-    
     return async (dispatch) => {
         try {
             const response = await request(`${API_URL}/auth/login`, {
@@ -58,9 +56,7 @@ export const loginUserAction = (userData, navigate) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(userData)
-            });
-
-           
+            });    
              
             if (response.success) {       
             
@@ -77,6 +73,7 @@ export const loginUserAction = (userData, navigate) => {
                
                 localStorage.setItem('users', JSON.stringify(user))
                 localStorage.setItem('isAuthorized', 'true');
+                dispatch(loginRequest(user.user));
                 navigate('/');
             } else {
                 dispatch(loginUserFail("Авторизация не удалась"));
@@ -126,7 +123,31 @@ export const fetchUserData = () => {
                 'Content-Type': 'application/json'
             },
         });
-        return response.user;
+
+        if(response.success)
+        {
+            return response.user
+        }
+        else{
+            const refreshTokenStore = {
+                refreshToken: JSON.parse(localStorage.getItem('users'))?.refreshToken
+            };
+            refreshTokenAction(refreshTokenStore)
+            token = JSON.parse(localStorage.getItem('users'))?.accessToken;
+
+            const responseUser = await request(`${API_URL}/auth/user`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `${token}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+            
+            return responseUser.user;
+        }
+
+
+        
     }
      catch (error) {
         console.error('Ошибка при получении пользовательских данных:', error);
@@ -146,7 +167,11 @@ export const updateUserData = async (updateData) => {
         body: JSON.stringify(updateData),
     });
 
-    if (!response.ok) {
+    const users = JSON.parse(localStorage.getItem('users')) || {};
+    users.user = updateData;
+    localStorage.setItem('users', JSON.stringify(users)); 
+
+    if (!response.success) {
         throw new Error('Ошибка обновления данных пользователя');
     }
 

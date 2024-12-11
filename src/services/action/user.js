@@ -34,12 +34,15 @@ export const updateUserTokenFail=()=>({
 
 })
 
-export const loginRequest = () => ({
-    type: LOGIN_REQUEST
+export const loginRequest = (userData) => ({
+    type: LOGIN_REQUEST,
+    payload: {userData}
+
 });
 
 export const logout = () => ({
-    type: LOGOUT
+    type: LOGOUT,
+    
 });
 
 export const forgotPassword= ()=> ({

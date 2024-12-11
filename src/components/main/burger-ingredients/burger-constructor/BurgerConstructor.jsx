@@ -1,6 +1,6 @@
 import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from '../burger-constructor/BurgerConstructor.module.scss';
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SelectedIngredient } from "./SelectIngredient";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,9 +15,12 @@ import { useNavigate } from "react-router-dom";
 export function BurgerConstructor() {
     const dispatch = useDispatch();
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
+    const isAuthorized = localStorage.getItem('isAuthorized');
     const [isShowModalOrder, setShowModalOrder] = useState(false);
     const [orderNumber, setOrderNumber] = useState(null);
     const navigate=useNavigate();
+
+   
     
     const handleOrderClick = () => {
         setShowModalOrder(true);
@@ -29,9 +32,10 @@ export function BurgerConstructor() {
     };
 
     const placeOrder = async () => {
-        if(localStorage.getItem('isAuthorized')==='false')
+        if(isAuthorized === 'false' || isAuthorized === null) 
         {
                 navigate('/login');
+         
         }
         else 
         {   

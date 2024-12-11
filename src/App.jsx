@@ -8,8 +8,8 @@ import { setError, setIngredients, setLoading } from './services/action/burgerIn
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { fetchIngredients } from './services/action/thunk/ingredientsActions';
-import styles from './components/main/burger-ingredients/BurgerIngredients.module.scss'
-import { Routes, Route, Navigate } from 'react-router-dom';
+import styles from './components/main/burger-ingredients/BurgerIngredients.module.scss';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Registration } from './components/main/pages/Registration';
 import { PasswordRecovery } from './components/main/pages/PasswordRecovery';
 import { Profile } from './components/main/pages/Profile';
@@ -19,47 +19,54 @@ import { useNavigate } from 'react-router-dom';
 import { Entry } from './components/main/pages/entry';
 import { ProtectedRouteElement } from './components/protected/protectedRouteElement';
 import { IngredientsDetails } from './components/modal/detail/IngredientsDetails';
+import { loginRequest } from './services/action/user';
+import {Modal} from './components/modal/Modal';  
 
 function App() {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.burgerIngredients);
-  const isForgotPassword = useSelector((state) => state.users.isForgotPassword)
- 
+  const { loading, error} = useSelector((state) => state.burgerIngredients); 
+  const isForgotPassword = useSelector((state) => state.users.isForgotPassword);
+  const location = useLocation(); 
+  const background = location.state && location.state.background; 
+  const navigate= useNavigate();
+
 
   useEffect(() => {
     dispatch(fetchIngredients());
   }, [dispatch]);
-
-  useEffect(() => {
-    localStorage.setItem('isAuthorized', 'false');
-}, []);
-
+  
   return (
     <>
       <AppHeader />
       <main className={styles.mainBurger}>
-        <Routes>
+        <Routes location={background || location}>
           <Route path="/" element={
-            loading ? (
-              <div>Загрузка...</div>
-            ) : error ? (
-              <div>Ошибка: {error}</div>
-            ) : (
-              <DndProvider backend={HTML5Backend}>
-                <MainPage/>
-              </DndProvider>
-            )
+            loading ? <div>Загрузка...</div> :
+            error ? <div>Ошибка: {error}</div> :
+            <DndProvider backend={HTML5Backend}>
+              <MainPage  />
+            </DndProvider>
           } />
-          <Route path="/login" element={<ProtectedRouteElement isProtected={false} children={<Entry />}/>} />
-          <Route path="/register" element={<ProtectedRouteElement isProtected={false} children={<Registration/>}/>} />
-          <Route path="/forgot-password" element={<ProtectedRouteElement isProtected={false} children={<PasswordRecovery/>}/>} />
-          <Route path="/ingredients/:_id" element={<IngredientsDetails/>}/>
-          <Route path="/reset-password" element={<ProtectedRouteElement isProtected={false}>
-           {isForgotPassword ? <ResetPassword /> : <Navigate to="/forgot-password" replace />}
-            </ProtectedRouteElement>} />
-          <Route path="/profile/*" element={<ProtectedRouteElement isProtected={true} children={<Profile/>}/>} />
+          <Route path="/login" element={<ProtectedRouteElement isProtected={false}><Entry /></ProtectedRouteElement>} />
+          <Route path="/register" element={<ProtectedRouteElement isProtected={false}><Registration /></ProtectedRouteElement>} />
+          <Route path="/forgot-password" element={<ProtectedRouteElement isProtected={false}><PasswordRecovery /></ProtectedRouteElement>} />
+          <Route path="/ingredients/:_id" element={<IngredientsDetails />} />
+          <Route path="/reset-password" element={<ProtectedRouteElement isProtected={false}>{isForgotPassword ? <ResetPassword /> : <Navigate to="/forgot-password" replace />} </ProtectedRouteElement>} />
+          <Route path="/profile/*" element={<ProtectedRouteElement isProtected={true}><Profile /></ProtectedRouteElement>} />
           <Route path="*" element={<div>Страница не найдена</div>} />
         </Routes>
+
+        {background && (
+          <Routes>
+            <Route path="/ingredients/:_id" element={
+              <Modal modalTitle={"Детали ингредиента"} onClose={() => navigate(-1)}>
+                <IngredientsDetails  />
+              </Modal>
+            } />
+          </Routes>
+        )}
+
+       
       </main>
     </>
   );

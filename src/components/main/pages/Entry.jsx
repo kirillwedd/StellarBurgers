@@ -5,7 +5,7 @@ import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-compone
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { loginUserAction } from '../../../services/action/thunk/UserAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export function Entry() {
     const [email, setEmail]=useState("");
@@ -16,7 +16,7 @@ export function Entry() {
     const userData = { email, password};
 
     const handleSubmit=(e)=> {
-        e.preventDefault();
+      e.preventDefault();
       dispatch(loginUserAction(userData, navigate))
     }
 

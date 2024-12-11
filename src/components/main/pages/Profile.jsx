@@ -6,12 +6,15 @@ import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-compone
 import { fetchUserData, updateUserData } from '../../../services/action/thunk/UserAction';
 import { request } from '../../../utils/apiUtils';
 import { API_URL } from '../../../apiConfig';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../services/action/user';
 
 export function Profile() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [originalUserData, setOriginalUserData] = useState({});
+    const dispatch =useDispatch();
     const navigate=useNavigate();
    
 
@@ -19,9 +22,11 @@ export function Profile() {
         const loadUserData = async () => {
             try {
                 const userData =await fetchUserData()();
+                const password = JSON.parse(localStorage.getItem('users'))?.user;
                 setOriginalUserData(userData)
                 setName(userData.name);
                 setEmail(userData.email);
+                setPassword(password.password)
                 
             } catch (error) {
                 console.error('Ошибка при загрузке пользовательских данных:', error);
@@ -30,7 +35,7 @@ export function Profile() {
         loadUserData();
     }, []);
 
-    const handleSave = async (e) => {
+    const handleSave =  async (e) => {
         e.preventDefault();
 
         const updateData = {
@@ -40,7 +45,7 @@ export function Profile() {
         };
 
         try {
-            const response = await updateUserData(updateData); 
+            const response =  updateUserData(updateData); 
 
             if (response.success) {
                 console.log('Данные успешно обновлены:', response.user);
@@ -56,10 +61,10 @@ export function Profile() {
         setPassword('');
     };
 
-    const handleExit= async ()=> {
-        const refreshToken = localStorage.getItem('refreshToken');
-
-        const response= await request(`${API_URL}auth/logout`, {
+    const handleExit= async (e)=> {
+        e.preventDefault();
+        const refreshToken = JSON.parse(localStorage.getItem('users'))?.refreshToken;
+        const response= await request(`${API_URL}/auth/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -69,6 +74,8 @@ export function Profile() {
 
         if(response.success){
             localStorage.removeItem('isAuthorized');
+            localStorage.removeItem('users');
+            dispatch(logout())
             navigate('/login');
         }
     }
