@@ -1,0 +1,20 @@
+.containerEdit {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+.labelEntry {
+    width: 480px;
+}
+
+.additionalActions {
+ width: 480px;
+ color: #8585AD;
+
+  a {
+    text-decoration: none;
+    color: #4C4CFF;
+  }
+}
+

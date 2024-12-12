@@ -6,9 +6,11 @@ import styles from '../../../burger-ingredients/BurgerIngredients.module.scss'
 import { useSelector } from "react-redux";
 import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
+import { Link, useLocation } from "react-router-dom";
 
 export function IngredientItems({ onClick, ingredients }) {
     const { _id, name, price, image, type} = ingredients;
+    const location =useLocation();
 
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
     
@@ -31,6 +33,7 @@ export function IngredientItems({ onClick, ingredients }) {
     });
 
     return (
+        <Link to={`/ingredients/${_id}`} state={{ background: location }}  className={styles.link}  >
         <article className={styles.burgerItem__counter} ref={drag}>
             <Counter count={countIngredients(_id, type)} /> 
             <article className={`${styles.burgerIngredients__item} ${styles.burgerItem}`} onClick={onClick}>
@@ -41,6 +44,7 @@ export function IngredientItems({ onClick, ingredients }) {
                 <div className={`${styles.burgerItem__title} text_type_main-default mt-1`}>{name}</div>    
             </article>
         </article>
+        </Link>
     );
 }
 
