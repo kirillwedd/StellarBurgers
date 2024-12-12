@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 export function BurgerConstructor() {
     const dispatch = useDispatch();
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
-    const isAuthorized = localStorage.getItem('isAuthorized');
+    const isAuthorized = useSelector((state) => state.users.isLoggedIn);
     const [isShowModalOrder, setShowModalOrder] = useState(false);
     const [orderNumber, setOrderNumber] = useState(null);
     const navigate=useNavigate();

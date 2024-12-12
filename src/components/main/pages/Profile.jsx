@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from './Profile.module.scss';
-import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import { fetchUserData, updateUserData } from '../../../services/action/thunk/UserAction';
 import { request } from '../../../utils/apiUtils';
 import { API_URL } from '../../../apiConfig';
@@ -14,20 +14,18 @@ export function Profile() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [originalUserData, setOriginalUserData] = useState({});
-    const dispatch =useDispatch();
-    const navigate=useNavigate();
-   
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const loadUserData = async () => {
             try {
-                const userData =await fetchUserData()();
+                const userData = await fetchUserData()();
                 const password = JSON.parse(localStorage.getItem('users'))?.user;
-                setOriginalUserData(userData)
+                setOriginalUserData(userData);
                 setName(userData.name);
                 setEmail(userData.email);
-                setPassword(password.password)
-                
+                setPassword(password.password);
             } catch (error) {
                 console.error('Ошибка при загрузке пользовательских данных:', error);
             }
@@ -35,7 +33,7 @@ export function Profile() {
         loadUserData();
     }, []);
 
-    const handleSave =  async (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
 
         const updateData = {
@@ -45,7 +43,7 @@ export function Profile() {
         };
 
         try {
-            const response =  updateUserData(updateData); 
+            const response = await updateUserData(updateData);
 
             if (response.success) {
                 console.log('Данные успешно обновлены:', response.user);
@@ -61,26 +59,24 @@ export function Profile() {
         setPassword('');
     };
 
-    const handleExit= async (e)=> {
+    const handleExit = async (e) => {
         e.preventDefault();
         const refreshToken = JSON.parse(localStorage.getItem('users'))?.refreshToken;
-        const response= await request(`${API_URL}/auth/logout`, {
+        const response = await request(`${API_URL}/auth/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ token: refreshToken }) 
-        })
+        });
 
-        if(response.success){
+        if(response.success) {
             localStorage.removeItem('isAuthorized');
             localStorage.removeItem('users');
-            dispatch(logout())
+            dispatch(logout());
             navigate('/login');
         }
-    }
-
-
+    };
 
     return (
         <div className={styles.profile}>

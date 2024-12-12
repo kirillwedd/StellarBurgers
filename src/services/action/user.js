@@ -6,6 +6,7 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const UPDATE_USER_TOKEN_FAIL="UPDATE_USER_TOKEN_FAIL";
 export const FORGOT_PASSWORD="FORGOT_PASSWORD";
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
 export const loginUser = (user, accessToken, refreshToken) => ({
     type: LOGIN_USER,
@@ -43,6 +44,10 @@ export const loginRequest = (userData) => ({
 export const logout = () => ({
     type: LOGOUT,
     
+});
+
+export const loginSuccess = () => ({ 
+    type: LOGIN_SUCCESS 
 });
 
 export const forgotPassword= ()=> ({

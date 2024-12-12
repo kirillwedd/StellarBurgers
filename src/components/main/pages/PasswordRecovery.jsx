@@ -1,5 +1,5 @@
 import styles from './PasswordRecovery.module.scss';
-import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
+import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,8 +11,7 @@ import { forgotPassword } from '../../../services/action/user';
 export function PasswordRecovery() {
     const [email, setEmail] = useState('');
     const navigate = useNavigate(); 
-    const dispatch=useDispatch();
-
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,7 +26,7 @@ export function PasswordRecovery() {
             });
 
             if (response.success) {
-                dispatch(forgotPassword())
+                dispatch(forgotPassword());
                 navigate('/reset-password');
             } else {
                 throw new Error(response.message);
@@ -40,13 +39,12 @@ export function PasswordRecovery() {
     return (
         <section className="container">
             <label className={`${styles.labelPasswordRecovery} text_type_main-medium`}>Восстановление пароля</label>
-
-            <article className={`${styles.containerPasswordRecovery} mt-6`} >
+            <form onSubmit={handleSubmit} className={`${styles.containerPasswordRecovery} mt-6`}>
                 <EmailInput placeholder={'Укажите e-mail'} value={email} onChange={(e) => setEmail(e.target.value)} required />
                 <div className={`mt-6`}>
-                    {email && <Button htmlType='submit' onClick={handleSubmit}>Восстановить</Button>}
+                    {email && <Button htmlType='submit'>Восстановить</Button>}
                 </div>
-            </article>
+            </form>
 
             <article className={`${styles.additionalActions} text_type_main-default mt-20`}>
                 <div className={styles.edit}>

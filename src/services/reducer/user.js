@@ -1,11 +1,11 @@
-import {  REGISTER_USER, REGISTER_USER_FAIL,  LOGIN_USER, LOGIN_FAIL, LOGOUT, UPDATE_USER_TOKEN_FAIL, FORGOT_PASSWORD, LOGIN_REQUEST } from "../action/user";
+import {  REGISTER_USER, REGISTER_USER_FAIL,  LOGIN_USER, LOGIN_FAIL, LOGOUT, UPDATE_USER_TOKEN_FAIL, FORGOT_PASSWORD, LOGIN_REQUEST, LOGIN_SUCCESS } from "../action/user";
 
 const initialState = {
     isForgotPassword: false,
     loading: false,
     error: null,
-    isAuthenticated: false,
     user: null,
+    isLoggedIn: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -16,7 +16,7 @@ export const userReducer = (state = initialState, action) => {
                 user: action.payload.user,
                 accessToken: action.payload.accessToken,
                 refreshToken: action.payload.refreshToken,
-                isAuthenticated: true,
+                 isLoggedIn: true,
                 loading: false,
             };
         case REGISTER_USER_FAIL:
@@ -28,7 +28,7 @@ export const userReducer = (state = initialState, action) => {
          case LOGIN_REQUEST:
             return {
                 ...state,
-                isAuthenticated: true,
+                 isLoggedIn: true,
                 user: action.payload
             }
         case LOGIN_USER:
@@ -37,7 +37,7 @@ export const userReducer = (state = initialState, action) => {
                 user: action.payload.user,
                 accessToken: action.payload.accessToken,
                 refreshToken: action.payload.refreshToken,
-                isAuthenticated: true,
+                 isLoggedIn: true,
                 loading: false,
             };
         case LOGIN_FAIL:
@@ -53,13 +53,19 @@ export const userReducer = (state = initialState, action) => {
             };
         case LOGOUT:
             return {
-              state
+              ...state,
+              isLoggedIn: false
             };
         case FORGOT_PASSWORD:
             return {
                 ...state,
                 isForgotPassword: true,
             }
+        case LOGIN_SUCCESS: 
+             return {
+                ...state,
+                isLoggedIn: true
+             }
         
 
         default:

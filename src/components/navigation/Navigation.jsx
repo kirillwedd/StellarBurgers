@@ -10,7 +10,7 @@ export function Navigation(){
             <NavItem to={"/"}><BurgerIcon className="mr-2"/>Конструктор</NavItem>
             <NavItem to={"/orders"}><ListIcon className="mr-2"/>Лента заказов</NavItem>
         </ul>
-        <Logo className="mr-30 "/>
+        <Logo className="mr-30" />
         
          <ul className="header__menu-list navigation">
             <NavItem to={"/profile"}><ProfileIcon className="mr-2"/>Личный кабинет</NavItem>

@@ -7,10 +7,11 @@ export function NavItem({ children, to }) {
         <li className="header__menu-item navigation-item mr-2">
             <NavLink 
                 to={to} 
-                className="header__menu-link navigation-link text_type_main-default ml-5 mr-5" 
-                activeClassName="active">
+                className={({ isActive }) => 
+                    `header__menu-link navigation-link text_type_main-default ml-5 mr-5 ${isActive ? 'active' : ''}`
+                }
+            >
                 {children}
-                
             </NavLink>
         </li>
     );
@@ -18,5 +19,5 @@ export function NavItem({ children, to }) {
 
 NavItem.propTypes = {
     children: PropTypes.node.isRequired,
-    to: PropTypes.string.isRequired,
+    to: PropTypes.string.isRequired
 };
