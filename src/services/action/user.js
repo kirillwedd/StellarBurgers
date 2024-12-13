@@ -7,6 +7,9 @@ export const LOGOUT = "LOGOUT";
 export const UPDATE_USER_TOKEN_FAIL="UPDATE_USER_TOKEN_FAIL";
 export const FORGOT_PASSWORD="FORGOT_PASSWORD";
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const SET_AUTHORIZED='SET_AUTHORIZED'
+export const SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN';
+export const LOG_OUT = 'LOG_OUT';
 
 export const loginUser = (user, accessToken, refreshToken) => ({
     type: LOGIN_USER,
@@ -42,9 +45,13 @@ export const loginRequest = (userData) => ({
 });
 
 export const logout = () => ({
-    type: LOGOUT,
+    type: LOGOUT
     
 });
+
+export const setAuthorized=()=>({
+    type: SET_AUTHORIZED
+})
 
 export const loginSuccess = () => ({ 
     type: LOGIN_SUCCESS 

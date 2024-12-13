@@ -48,7 +48,7 @@ export const registerUserAction = (userData, navigate) => {
 
 export const loginUserAction = (userData, navigate) => {
 
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
             const response = await request(`${API_URL}/auth/login`, {
                 method: 'POST',
@@ -74,7 +74,7 @@ export const loginUserAction = (userData, navigate) => {
                 localStorage.setItem('users', JSON.stringify(user))
                 localStorage.setItem('isAuthorized', 'true');
                 dispatch(loginRequest(user.user));
-                navigate('/');
+              
             } else {
                 dispatch(loginUserFail("Авторизация не удалась"));
             }
@@ -177,3 +177,4 @@ export const updateUserData = async (updateData) => {
 
     return response;
 };
+

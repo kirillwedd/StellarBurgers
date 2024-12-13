@@ -11,7 +11,7 @@ export function ProtectedRouteElement({ isProtected, children }) {
 
     if (!isProtected && isAuthenticated) {
         if (location.pathname.match(/\/login|\/register|\/forgot-password|\/reset-password/)) {
-            return <Navigate to="/" replace />;
+            return <Navigate to={location.state?.from || "/"} replace />;
         }
     }
 

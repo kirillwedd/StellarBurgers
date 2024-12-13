@@ -23,6 +23,7 @@ import { loginRequest } from './services/action/user';
 import {Modal} from './components/modal/Modal';  
 
 function App() {
+  
   const dispatch = useDispatch();
   const { loading, error} = useSelector((state) => state.burgerIngredients); 
   const isForgotPassword = useSelector((state) => state.users.isForgotPassword);
@@ -34,6 +35,8 @@ function App() {
   useEffect(() => {
     dispatch(fetchIngredients());
   }, [dispatch]);
+
+
   
   return (
     <>

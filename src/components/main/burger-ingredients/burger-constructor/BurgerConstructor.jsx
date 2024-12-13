@@ -11,15 +11,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { DragIngredient } from "./drag-ingredient/dragIngredient";
 import { placeOrderThunk } from "../../../../services/action/thunk/orderActions";
 import { useNavigate } from "react-router-dom";
+import { setAuthorized } from "../../../../services/action/user";
 
 export function BurgerConstructor() {
     const dispatch = useDispatch();
     const { ingredientsBurger, bun } = useSelector((state) => state.builderBurger);
-    const isAuthorized = useSelector((state) => state.users.isLoggedIn);
+    const isLoggedIn = useSelector((state) => state.users.isLoggedIn);
     const [isShowModalOrder, setShowModalOrder] = useState(false);
     const [orderNumber, setOrderNumber] = useState(null);
     const navigate=useNavigate();
 
+  
    
     
     const handleOrderClick = () => {
@@ -32,10 +34,10 @@ export function BurgerConstructor() {
     };
 
     const placeOrder = async () => {
-        if(isAuthorized === 'false' || isAuthorized === null) 
+        
+        if(!isLoggedIn)  
         {
                 navigate('/login');
-         
         }
         else 
         {   

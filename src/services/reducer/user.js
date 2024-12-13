@@ -1,11 +1,11 @@
-import {  REGISTER_USER, REGISTER_USER_FAIL,  LOGIN_USER, LOGIN_FAIL, LOGOUT, UPDATE_USER_TOKEN_FAIL, FORGOT_PASSWORD, LOGIN_REQUEST, LOGIN_SUCCESS } from "../action/user";
+import {  REGISTER_USER, REGISTER_USER_FAIL,  LOGIN_USER, LOGIN_FAIL, LOGOUT, UPDATE_USER_TOKEN_FAIL, FORGOT_PASSWORD, LOGIN_REQUEST, LOGIN_SUCCESS, SET_AUTHORIZED } from "../action/user";
 
 const initialState = {
     isForgotPassword: false,
     loading: false,
     error: null,
     user: null,
-    isLoggedIn: false,
+    isLoggedIn: localStorage.getItem('isAuthorized')==='true',
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -16,7 +16,7 @@ export const userReducer = (state = initialState, action) => {
                 user: action.payload.user,
                 accessToken: action.payload.accessToken,
                 refreshToken: action.payload.refreshToken,
-                 isLoggedIn: true,
+                isLoggedIn: true,
                 loading: false,
             };
         case REGISTER_USER_FAIL:
@@ -66,8 +66,13 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 isLoggedIn: true
              }
+        case SET_AUTHORIZED:
+            return {
+                ...state,
+                isLoggedIn: true
+            }
         
-
+        
         default:
             return state;
             
