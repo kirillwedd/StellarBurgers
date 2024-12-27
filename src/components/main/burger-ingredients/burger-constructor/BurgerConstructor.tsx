@@ -13,14 +13,15 @@ import { useNavigate } from "react-router-dom";
 import { setAuthorized } from "../../../../services/action/user";
 import { DragIngredient } from "./drag-ingredient/DragIngredient";
 import { Ingredient } from "../../../../services/reducer/types/reducerTypes";
-import { AppDispatchBurgerConstructor, RootState } from "../../../../services/store";
+import { RootState } from "../../../../services/store";
 import { OrderData } from "../../../../services/reducer/types/orderTypes";
+import { useAppDispatch, useAppSelector } from "../../../../services/hooks";
 
 export function BurgerConstructor() {
     
-    const dispatch = useDispatch<AppDispatchBurgerConstructor>();
-    const { ingredientsBurger, bun } = useSelector((state: RootState) => state.builderBurger);
-    const isLoggedIn = useSelector((state : RootState) => state.users.isLoggedIn);
+    const dispatch = useAppDispatch();
+    const { ingredientsBurger, bun } = useAppSelector((state) => state.builderBurger);
+    const isLoggedIn = useAppSelector((state) => state.users.isLoggedIn);
     const [isShowModalOrder, setShowModalOrder] = useState(false);
     const [orderNumber, setOrderNumber] = useState(null);
     const navigate=useNavigate();

@@ -6,10 +6,11 @@ import styles from '../Modal.module.scss';
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../services/store";
+import { useAppSelector } from "../../../services/hooks";
 
 export function IngredientsDetails() {
     const { _id } = useParams();
-    const ingredients = useSelector((state : RootState) => state.burgerIngredients.ingredients);
+    const ingredients = useAppSelector((state) => state.burgerIngredients.ingredients);
 
     const currentIngredient = ingredients.find(item => item._id === _id);
 

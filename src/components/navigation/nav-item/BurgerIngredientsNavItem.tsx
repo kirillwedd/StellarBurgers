@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 
-export function BurgerIngredientsNavItem({children}){
+export function BurgerIngredientsNavItem({children} : {children:string}){
     return (
     <li className="burger-ingredients__nav-item navigation-item">
         <a className="navigation-item__link text_type_main-default"href="#">{children}</a>
@@ -8,6 +7,3 @@ export function BurgerIngredientsNavItem({children}){
     )
 }
 
-BurgerIngredientsNavItem.propTypes={
-    children: PropTypes.string.isRequired
-};

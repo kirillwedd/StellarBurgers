@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import styles from '../burger-ingredients/BurgerIngredients.module.scss';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setTabActive } from "../../../services/action/burgerIngredients";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
-import { ingredientType } from "../../../utils/types";
-import { AppDispatch, RootState } from '../../../services/store';
 import { Ingredient } from "../../../services/reducer/types/reducerTypes";
+import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 
 interface BurgerIngredientsProps {
     bunArr: Array<Ingredient>;
@@ -16,8 +14,8 @@ interface BurgerIngredientsProps {
 }
 
 export function BurgerIngredients({ bunArr, meatArr, sauceArr }: BurgerIngredientsProps) {
-    const activeTab = useSelector((state: RootState) => state.burgerIngredients.activeTab);
-    const dispatch = useDispatch<AppDispatch>();
+    const activeTab = useAppSelector((state) => state.burgerIngredients.activeTab);
+    const dispatch = useAppDispatch();
 
     const bunRef = useRef<HTMLHeadingElement>(null);
     const sauceRef = useRef<HTMLHeadingElement>(null);
@@ -76,8 +74,3 @@ export function BurgerIngredients({ bunArr, meatArr, sauceArr }: BurgerIngredien
     );
 }
 
-BurgerIngredients.propTypes = {
-    bunArr: PropTypes.arrayOf(ingredientType).isRequired,
-    meatArr: PropTypes.arrayOf(ingredientType).isRequired,
-    sauceArr: PropTypes.arrayOf(ingredientType).isRequired
-};

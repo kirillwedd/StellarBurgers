@@ -20,7 +20,13 @@ export function GroupIngredients({ ingredients}: IIngredients ) {
                     ingredients.map((ingredient) => (
                         <IngredientItems
                             key={ingredient.uniqueId}
-                            ingredients={ingredient}              
+                            ingredients={ingredient}
+                            _id={ingredient._id}
+                            image={ingredient.image}
+                            type={ingredient.type}
+                            name={ingredient.name}
+                            price={ingredient.price}
+
                         />
                     ))
                 )}

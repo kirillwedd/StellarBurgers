@@ -28,7 +28,7 @@ interface SetTabActiveAction {
 }
 
 
-export type AppActions = AddIngredientAction | SetLoadingAction | SetErrorAction | SetTabActiveAction;
+export type IngredientActions = AddIngredientAction | SetLoadingAction | SetErrorAction | SetTabActiveAction;
 
 
 export const setIngredients = (items: Ingredient[]): AddIngredientAction => {

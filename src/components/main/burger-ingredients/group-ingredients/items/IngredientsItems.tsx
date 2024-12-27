@@ -11,13 +11,13 @@ import { RootState } from "../../../../../services/store";
 import { IIngredients } from "../GroupIngredients";
 import { Ingredient } from "../../../../../services/reducer/types/reducerTypes";
 
-export interface IIngredientWithClick extends Ingredient {
+export interface IIngredientWithClick extends Pick<Ingredient, '_id' | 'name' | 'price' | 'image' | 'type'> {
     onClick?: () => void; 
     ingredients: Ingredient
 }
 
-export function IngredientItems({ onClick, ingredients } : IIngredientWithClick) {
-    const { _id, name, price, image, type} = ingredients;
+export function IngredientItems({ onClick, ingredients, _id, name, price, image, type, } : IIngredientWithClick) {
+   
     const location =useLocation();
 
     const { ingredientsBurger, bun } = useSelector((state : RootState) => state.builderBurger);
@@ -56,7 +56,3 @@ export function IngredientItems({ onClick, ingredients } : IIngredientWithClick)
     );
 }
 
-IngredientItems.propTypes = {
-    ingredients: ingredientType.isRequired,
-    onClick: PropTypes.func,
-};

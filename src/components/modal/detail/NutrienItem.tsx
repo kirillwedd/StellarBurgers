@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styles from '../../modal/Modal.module.scss'
 
 interface INutrienItem {
-    title: string; // Предположим, что title - это строка
-    count: number; // Предположим, что count - это число
+    title: string; 
+    count: number; 
 }
 
 export function NutrienItem({title, count}: INutrienItem){

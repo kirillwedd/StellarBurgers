@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styles from '../../../main/burger-ingredients/burger-constructor/BurgerConstructor.module.scss'
 import { ReactNode } from 'react';
 

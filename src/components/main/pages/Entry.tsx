@@ -5,14 +5,13 @@ import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { loginUserAction } from '../../../services/action/thunk/UserAction';
-import { useDispatch } from 'react-redux';
-import { AppDispatchIngredient } from '../../../services/store';
+import { useAppDispatch } from '../../../services/hooks';
 
 export function Entry() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const dispatch = useDispatch<AppDispatchIngredient>();
+    const dispatch =useAppDispatch();
     const userData = { email, password };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement> ) => {

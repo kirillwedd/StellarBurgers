@@ -5,14 +5,13 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../apiConfig';
 import { request } from '../../../utils/apiUtils';
-import { useDispatch } from 'react-redux';
 import { forgotPassword } from '../../../services/action/user';
-import { AppDispatchUser } from '../../../services/store';
+import { useAppDispatch } from '../../../services/hooks';
 
 export function PasswordRecovery() {
     const [email, setEmail] = useState('');
     const navigate = useNavigate(); 
-    const dispatch = useDispatch<AppDispatchUser>();
+    const dispatch = useAppDispatch();
 
     const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

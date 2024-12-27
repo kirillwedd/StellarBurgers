@@ -3,12 +3,11 @@ import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import { Button, EmailInput, PasswordInput, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { registerUserAction } from '../../../services/action/thunk/UserAction';
-import { AppDispatchUser } from '../../../services/store';
+import { useAppDispatch } from '../../../services/hooks';
 
 export function Registration() {
-    const dispatch = useDispatch<AppDispatchUser>()
+    const dispatch = useAppDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');

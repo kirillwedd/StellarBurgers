@@ -1,8 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 
-export function NavItem({ children, to }) {
+interface INavItem {
+    children: React.ReactNode;
+    to: string; 
+}
+
+export function NavItem({ children, to }: INavItem) {
     return (
         <li className="header__menu-item navigation-item mr-2">
             <NavLink 
@@ -17,7 +21,3 @@ export function NavItem({ children, to }) {
     );
 }
 
-NavItem.propTypes = {
-    children: PropTypes.node.isRequired,
-    to: PropTypes.string.isRequired
-};

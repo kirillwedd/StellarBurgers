@@ -18,14 +18,15 @@ import { loginRequest } from './services/action/user';
 import {Modal} from './components/modal/Modal';  
 import { Entry } from './components/main/pages/Entry';
 import { ProtectedRouteElement } from './components/protected/ProtectedRouteElement';
-import { AppDispatch, AppDispatchIngredient, RootState } from './services/store';
+import { RootState } from './services/store';
 import { InitialAuth } from './services/action/thunk/UserAction';
+import { useAppDispatch, useAppSelector } from './services/hooks';
 
 function App() {
   
-  const dispatch = useDispatch<AppDispatchIngredient>();
-  const { loading, error} = useSelector((state: RootState) => state.burgerIngredients); 
-  const isForgotPassword = useSelector((state: RootState) => state.users.isForgotPassword);
+  const dispatch = useAppDispatch();
+  const { loading, error} = useAppSelector((state) => state.burgerIngredients); 
+  const isForgotPassword = useAppSelector((state) => state.users.isForgotPassword);
   const location = useLocation(); 
   const background = location.state && location.state.background; 
   const navigate= useNavigate();

@@ -14,11 +14,11 @@ import {
 import { User } from "../../reducer/types/userTypes";
 import { Action, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { RootState } from "../../store";
+import { AppDispatch, RootState } from "../../store";
 
 
 export const registerUserAction = (userData: User) => {
-    return async (dispatch: Dispatch<UserActions>) => {
+    return async (dispatch: AppDispatch) => {
         const navigate = useNavigate(); // вы можете делать это в компоненте
         try {
             const response = await request(`${API_URL}/auth/register`, {
@@ -53,7 +53,7 @@ export const registerUserAction = (userData: User) => {
 };
 
 export const loginUserAction = (userData: User, navigate: any)  => {
-    return async (dispatch: Dispatch<UserActions>) => {
+    return async (dispatch: AppDispatch) => {
         try {
             const response = await request(`${API_URL}/auth/login`, {
                 method: 'POST',
@@ -90,7 +90,7 @@ export const loginUserAction = (userData: User, navigate: any)  => {
 
 
 export const refreshTokenUp = (refreshTokenStore: string) => {
-    return async (dispatch: Dispatch<UserActions>) => {
+    return async (dispatch: AppDispatch) => {
         const storedUser = JSON.parse(localStorage.getItem('users') || '{}'); 
         try {
             const response = await request(`${API_URL}/auth/token`, {
@@ -132,7 +132,7 @@ const fetchUser = async (token: any) => {
     });
 };
 
-export const InitialAuth= () : ThunkAction<Promise<any>, RootState, unknown, UserActions> => {
+export const InitialAuth= ()  => {
     return async () => { 
         const navigate = useNavigate(); 
         const getToken = () => JSON.parse(localStorage.getItem('users') || '{}')?.accessToken; 
@@ -159,7 +159,7 @@ export const InitialAuth= () : ThunkAction<Promise<any>, RootState, unknown, Use
     };
 };
 
-export const fetchUserData = () : ThunkAction<Promise<any>, RootState, unknown, UserActions> => {
+export const fetchUserData = ()  => {
     return async () => { 
         const getToken = () => JSON.parse(localStorage.getItem('users') || '{}')?.accessToken; 
         const getRefreshToken = () => JSON.parse(localStorage.getItem('users') || '{}')?.refreshToken; 

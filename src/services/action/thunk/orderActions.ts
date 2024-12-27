@@ -6,7 +6,7 @@ import { placeOrderFail, placeOrderRequest, placeOrderSuccess } from "../order";
 
 
 export const placeOrderThunk = (orderData: OrderData) => {
-    return async (dispatch: any) => { // Используем определенный тип для dispatch
+    return async (dispatch: AppDispatch) => { 
         dispatch(placeOrderRequest());
 
         try {
@@ -20,12 +20,12 @@ export const placeOrderThunk = (orderData: OrderData) => {
             dispatch(placeOrderSuccess(data.order.number, orderData.ingredients)); 
             return data.order.number;
         } catch (err) {
-            // При обработке ошибок используем Type Assertion или уточняем тип
+            
             if (err instanceof Error) {
                 dispatch(placeOrderFail(err.message)); 
                 throw err;
             } else {
-                dispatch(placeOrderFail("Произошла неизвестная ошибка")); // Обработка общего случая
+                dispatch(placeOrderFail("Произошла неизвестная ошибка"));
                 throw new Error("Произошла неизвестная ошибка");
             }
         }

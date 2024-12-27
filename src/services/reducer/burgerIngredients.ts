@@ -1,4 +1,4 @@
-import { ADD_INGREDIENT, SET_LOADING, SET_ERROR, TAB_SWITCH, AppActions } from "../action/burgerIngredients";
+import { ADD_INGREDIENT, SET_LOADING, SET_ERROR, TAB_SWITCH, IngredientActions } from "../action/burgerIngredients";
 
 import { BurgerIngredientsState } from "./types/reducerTypes";
 
@@ -12,7 +12,7 @@ const initialState : BurgerIngredientsState = {
     activeTab: 'bun'
   };
 
-export const burgerIngredientsReducer=(state=initialState, action : AppActions): BurgerIngredientsState=>{
+export const burgerIngredientsReducer=(state=initialState, action : IngredientActions): BurgerIngredientsState=>{
     switch(action.type){
         case ADD_INGREDIENT:
             return { ...state, ingredients: action.payload };

@@ -6,17 +6,16 @@ import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import { fetchUserData, refreshTokenUp, updateUserData } from '../../../services/action/thunk/UserAction';
 import { request } from '../../../utils/apiUtils';
 import { API_URL } from '../../../apiConfig';
-import { useDispatch } from 'react-redux';
 import { logout } from '../../../services/action/user';
-import { AppDispatchUser } from '../../../services/store';
 import { User } from '../../../services/reducer/types/userTypes';
+import { useAppDispatch } from '../../../services/hooks';
 
 export function Profile() {
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [originalUserData, setOriginalUserData] = useState<{ name?: string; email?: string }>({});
-    const dispatch = useDispatch<AppDispatchUser>();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
