@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { ingredientType } from "../../../../../utils/types";
 import { useDrag } from "react-dnd";
 import styles from '../../../burger-ingredients/BurgerIngredients.module.scss'
-import { useSelector } from "react-redux";
 import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import '../../../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
 import { Link, useLocation } from "react-router-dom";
-import { RootState } from "../../../../../services/store";
-import { IIngredients } from "../GroupIngredients";
 import { Ingredient } from "../../../../../services/reducer/types/reducerTypes";
+import { useAppSelector } from "../../../../../services/hooks";
 
 export interface IIngredientWithClick extends Pick<Ingredient, '_id' | 'name' | 'price' | 'image' | 'type'> {
     onClick?: () => void; 
@@ -20,7 +18,7 @@ export function IngredientItems({ onClick, ingredients, _id, name, price, image,
    
     const location =useLocation();
 
-    const { ingredientsBurger, bun } = useSelector((state : RootState) => state.builderBurger);
+    const { ingredientsBurger, bun } = useAppSelector((state ) => state.builderBurger);
     
     const countIngredients = (ingredientId : string, type: string) => {
        

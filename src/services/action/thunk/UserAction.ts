@@ -19,7 +19,7 @@ import { AppDispatch, RootState } from "../../store";
 
 export const registerUserAction = (userData: User) => {
     return async (dispatch: AppDispatch) => {
-        const navigate = useNavigate(); // вы можете делать это в компоненте
+        const navigate = useNavigate(); 
         try {
             const response = await request(`${API_URL}/auth/register`, {
                 method: 'POST',
@@ -112,9 +112,10 @@ export const refreshTokenUp = (refreshTokenStore: string) => {
 
                 localStorage.setItem('users', JSON.stringify(updatedUser));
                
-                return accessToken; // Возвращаем токен для использования
+                return accessToken; 
             } else {
                 dispatch(updateUserTokenFail("Ошибка обновления токена"));
+                
             }
         } catch (error) {
             dispatch(updateUserTokenFail((error as Error).message));
@@ -134,22 +135,23 @@ const fetchUser = async (token: any) => {
 
 export const InitialAuth= ()  => {
     return async () => { 
-        const navigate = useNavigate(); 
-        const getToken = () => JSON.parse(localStorage.getItem('users') || '{}')?.accessToken; 
+        try {
+        const getToken = JSON.parse(localStorage.getItem('users') || '{}')?.accessToken; 
         
 
-        try {
-            let token = getToken();
-            if (!token) {
+        
+          
+            if (!getToken) {
                 throw new Error('Нет действительного токена.');
             }
 
-            let response = await fetchUser(token);
+            let response = await fetchUser(getToken);
+            console.log(response)
 
-            if (!response.success) {
+            if (response.success==='false') {
                 localStorage.removeItem("isAuthorized");
                 localStorage.removeItem("users")
-                navigate("/login")
+               
             } 
                    
         } catch (error) {
@@ -160,39 +162,35 @@ export const InitialAuth= ()  => {
 };
 
 export const fetchUserData = ()  => {
-    return async () => { 
+    return async (dispatch: AppDispatch) => { 
         const getToken = () => JSON.parse(localStorage.getItem('users') || '{}')?.accessToken; 
         const getRefreshToken = () => JSON.parse(localStorage.getItem('users') || '{}')?.refreshToken; 
 
-        try {
+        
             let token = getToken();
             if (!token) {
                 throw new Error('Нет действительного токена.');
             }
 
             let response = await fetchUser(token);
-
+            
+           
             if (response.success) {
                 return response.user; 
             } else {
-                const refreshTokenStore = getRefreshToken();
-                if (refreshTokenStore) {
-                    // Вызовите refreshTokenUp через dispatch, чтобы вернуть новый токен
-                    const newToken = await (refreshTokenUp(refreshTokenStore)); // Используйте dispatch
-                    if (newToken) {
+                const refreshTokenStore = getRefreshToken(); 
+                    const newToken = await dispatch(refreshTokenUp(refreshTokenStore));
+                    console.log(newToken) 
                         response = await fetchUser(newToken);
                         if (response.success) {
                             return response.user; 
                         }
-                    }
-                }
+                    
+                
                 
                 throw new Error('Не удалось получить данные пользователя после обновления токена');
             }
-        } catch (error) {
-            console.error('Ошибка при получении пользовательских данных:', error);
-            throw error; 
-        }
+        
     };
 };
 export const updateUserData = async (updateData: User) => {

@@ -1,0 +1,70 @@
+.feedBurgerLayout{
+    width: 640px;
+    height: 620px;  
+    display: flex;
+    flex-direction: column;
+}
+
+.feedPrice{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.feedTime{
+ width: 556px;
+ height: 24px;
+ align-self:center;
+ text-align: left;
+}
+
+.feedBurger{
+    text-align: left;   
+}
+
+.statusOrder {
+    text-align: left;
+    color: #00cccc;
+}
+
+.orderStructure{
+    list-style-type: none;
+    width: 640px;
+    height: 366px;
+    padding: 0;
+    overflow-y: auto;   
+ 
+}
+
+.feedBurgerOrderName {
+    text-align: left;
+}
+
+.orderNumber{
+    width: 640px;
+    height: 24px;
+}
+
+.titleStructure{
+    text-align: left;
+    
+}
+
+.feedInfo{
+    width: 640px;
+}
+
+.feedIngredients {
+    width: 640px;
+    height: 366px;
+}
+
+.feedTimePrice{
+    width: 640px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 24px;
+   
+}

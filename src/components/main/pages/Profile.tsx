@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from './Profile.module.scss';
+import  stylesfeed from '../pages/Feed.module.scss'
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import { fetchUserData, refreshTokenUp, updateUserData } from '../../../services/action/thunk/UserAction';
 import { request } from '../../../utils/apiUtils';
@@ -9,8 +10,15 @@ import { API_URL } from '../../../apiConfig';
 import { logout } from '../../../services/action/user';
 import { User } from '../../../services/reducer/types/userTypes';
 import { useAppDispatch } from '../../../services/hooks';
+import { CardOrder } from '../items-pages/CardOrder';
+import { CardOrderProfile } from '../items-pages/CardOrderProfile';
 
-export function Profile() {
+interface IProfile {
+ children?: React.ReactNode;
+}
+
+
+export function Profile({children}: IProfile) {
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -21,22 +29,26 @@ export function Profile() {
     useEffect(() => {
         const loadUserData = async () => {
             const refreshToken = JSON.parse(localStorage.getItem('users') || '{}')?.refreshToken || '';
-            try {
-                const userData = await dispatch(fetchUserData());
-                const storedUser = JSON.parse(localStorage.getItem('users') || '{}')?.user;
-                setOriginalUserData(userData);
-                setName(userData.name || '');
-                setEmail(userData.email || '');
-                setPassword(storedUser?.password || '');
-            } catch (error) {
-                await dispatch(refreshTokenUp(refreshToken));
-                const userData = await dispatch(fetchUserData());
-                const storedUser = JSON.parse(localStorage.getItem('users') || '{}')?.user;
-                setOriginalUserData(userData);
-                setName(userData.name || '');
-                setEmail(userData.email || '');
-                setPassword(storedUser?.password || '');
+          try {
+
+              const userData = await dispatch(fetchUserData());
+              const storedUser = JSON.parse(localStorage.getItem('users') || '{}')?.user;
+              setOriginalUserData(userData);
+              setName(userData.name || '');
+              setEmail(userData.email || '');
+              setPassword(storedUser?.password || '');
             }
+            catch(error){
+                await dispatch(refreshTokenUp(refreshToken))
+                const userData = await dispatch(fetchUserData());
+                const storedUser = JSON.parse(localStorage.getItem('users') || '{}')?.user;
+                setOriginalUserData(userData);
+                setName(userData.name || '');
+                setEmail(userData.email || '');
+                setPassword(storedUser?.password || '');
+
+            }
+            
         };
         loadUserData();
     }, [dispatch]);
@@ -112,6 +124,8 @@ export function Profile() {
                 </div>
             </section>
             <section className={styles.profileChanges}>
+                {
+                    children==="profile" ?
                 <form onSubmit={handleSave}>
                     <Input 
                         placeholder="Имя" 
@@ -149,6 +163,13 @@ export function Profile() {
                         </Button>
                     </div>
                 </form>
+                : 
+                        
+                            <section className={`${stylesfeed.orders}`}>
+                                <CardOrderProfile id={550}/>
+                            </section>
+                     
+                    }
             </section>
         </div>
     );

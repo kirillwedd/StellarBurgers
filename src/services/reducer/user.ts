@@ -12,7 +12,7 @@ const initialState : UserState = {
 
 
 
-export const userReducer = (state = initialState, action : UserActions) => {
+export const userReducer = (state = initialState, action : UserActions)  => {
     switch(action.type) {
         case REGISTER_USER:
             return {

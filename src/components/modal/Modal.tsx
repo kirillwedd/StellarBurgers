@@ -34,7 +34,7 @@ export function Modal({modalTitle, onClose, children} : IModal){
 
     return createPortal(
          <>     
-            <ModalOverlay onClick={onClose} handleContentClick={handleContentClick}> 
+            <ModalOverlay  onClick={onClose} handleContentClick={handleContentClick}> 
             <header className={`${styles.modal__header} mt-10 mr-10 ml-10`} >
                 <h2 className={`${styles.modal__title} text_type_main-large text`} >{modalTitle}</h2>
                 <div className={styles.modal_close} onClick={onClose}><CloseIcon type="primary"/></div>

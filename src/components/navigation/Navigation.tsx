@@ -10,7 +10,7 @@ export function Navigation(){
     <nav className="header__menu">
         <ul className="header__menu-list navigation mt-4 mb-4">
             <NavItem to={"/"}><BurgerIcon type="primary"  className="mr-2"/>Конструктор</NavItem>
-            <NavItem to={"/orders"}><ListIcon type="primary" className="mr-2"/>Лента заказов</NavItem>
+            <NavItem to={"/feed"}><ListIcon type="primary" className="mr-2"/>Лента заказов</NavItem>
         </ul>
          
          <div  onClick={()=>navigate('/')}>

@@ -1,0 +1,37 @@
+.cardOrder {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 844px;
+    border-radius: 40px;
+    align-items: center;
+    background-color: #1C1C21;;
+
+   
+}
+
+
+.orderID{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 796px;
+   
+   
+}
+
+.cardOrderTitle{
+    text-align: left;
+    width: 796px;
+}
+
+.link {
+    text-decoration: none;
+    color: white;
+ }
+
+.ready {
+    text-align: left;
+    width: 796px;
+}

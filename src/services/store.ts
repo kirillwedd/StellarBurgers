@@ -1,11 +1,9 @@
-import { createStore, applyMiddleware, combineReducers, compose, StoreEnhancer, Action } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose, } from 'redux';
 import {thunk, ThunkAction, ThunkDispatch} from 'redux-thunk';
 import { burgerConstructorReducer } from './reducer/builderBurger';
 import { orderReducer } from './reducer/order';
 import { userReducer } from './reducer/user';
 import { burgerIngredientsReducer } from './reducer/burgerIngredients';
-import { UserActions } from './action/user';
-import { BurgerActions } from './action/builderBurger';
 import { AppActions } from './reducer/types/actions';
 
 const rootReducer = combineReducers({
