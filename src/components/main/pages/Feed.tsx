@@ -22,8 +22,10 @@ export function Feed() {
         return ingredientsInStore.filter(ingredient => ids.includes(ingredient._id));
     };
 
-    const groupedOrders = (orders: IOrder[], limit: number) => {
-        return orders.slice(0, limit); // Ограничиваем результат первым 'limit' заказам
+    const groupedOrders = (orders: IOrder[], limit: number, statusFilter?: string) => {
+        return orders
+            .filter(order => !statusFilter || order.status === statusFilter) // Фильтруем заказы по статусу, если фильтр указан
+            .slice(0, limit); // Ограничиваем результат первым 'limit' заказам
     };
 
     useEffect(() => {
@@ -52,7 +54,8 @@ export function Feed() {
         };
     }, []);
 
-    const completedOrders = groupedOrders(ordersDone, 10); // Получаем первые 10 готовых заказов
+    const completedOrders = groupedOrders(ordersDone, 10, 'done'); // Получаем первые 10 готовых заказов
+    const pendingOrders = groupedOrders(ordersDone, 10, 'pending');
 
     return (
         <div className={`${styles.feedLayout}`}>
@@ -68,12 +71,20 @@ export function Feed() {
                 </section>
 
                 <section className={`${styles.feedStats}`}>
-                    <article className={`${styles.board}`}>
+                    <article className={`${styles.boards}`}>
                         <Board
                             title='Готовы:'
-                            groupedOrders={completedOrders} // Передаем готовые заказы в Board
+                            groupedOrders={completedOrders} 
                             className=''
                         />
+
+                        <Board
+                            title='В ожидании:'
+                            groupedOrders={pendingOrders} 
+                            className=''
+                        />
+
+                      
                     </article>
                     <article className={`${styles.board} mt-15`}>
                         <div className={`text_type_main-medium ${styles.board__titleCompleted}`}>Выполнено за все время:</div>

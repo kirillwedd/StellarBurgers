@@ -8,6 +8,7 @@ import { placeOrderFail, placeOrderRequest, placeOrderSuccess } from "../order";
 export const placeOrderThunk = (orderData: OrderData) => {
     return async (dispatch: AppDispatch) => { 
         dispatch(placeOrderRequest());
+        const accessToken = JSON.parse(localStorage.getItem('users') || '{}')?.accessToken; 
 
         try {
             const data = await request(`${API_URL}/orders`, {
@@ -15,6 +16,7 @@ export const placeOrderThunk = (orderData: OrderData) => {
                 body: JSON.stringify(orderData),
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `${accessToken}`,
                 },
             });
             dispatch(placeOrderSuccess(data.order.number, orderData.ingredients)); 

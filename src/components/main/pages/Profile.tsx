@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../services/hooks';
 import { CardOrderProfile } from '../items-pages/CardOrderProfile';
 import { IApiResponse, IOrder } from '../../../services/reducer/types/wsTypes';
 import { Ingredient } from '../../../services/reducer/types/reducerTypes';
+import { CardOrder } from '../items-pages/CardOrder';
 
 
 interface IProfile {
@@ -36,7 +37,7 @@ export function Profile({children}: IProfile) {
         const fetchIngredients = async () => {
             const response = await request(`${API_URL}/ingredients`); // Замените на ваш API для получения ингредиентов
             if (response.success) {
-                setAvailableIngredients(response.data); // Предположим, что данные ингредиентов находятся в поле "data"
+                setAvailableIngredients(response.data); 
             }
         };
 
@@ -64,11 +65,8 @@ export function Profile({children}: IProfile) {
             }
         };
     
-        socket.onerror = (event) => {
-            console.error('Ошибка WebSocket:', event);
-            if (event instanceof ErrorEvent) {
-                console.error('Ошибка: ', event.message);
-            }
+        socket.onerror = (error) => {
+            console.error('Ошибка WebSocket:', error);
         };
     
         return () => {
@@ -220,7 +218,7 @@ export function Profile({children}: IProfile) {
                                 ).filter((ingredient): ingredient is Ingredient => ingredient !== undefined); 
 
                                 return (
-                                    <CardOrderProfile key={index} id={index} ingredientsBurgers={ingredientsBurgers} />
+                                    <CardOrder key={index} title={order.name} id={order.number} createdAt={order.createdAt} status={order.status} ingredientsBurgers={ingredientsBurgers} />
                                 );
                             })}
                         </section>

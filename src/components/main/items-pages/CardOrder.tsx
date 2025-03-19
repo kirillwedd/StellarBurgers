@@ -4,7 +4,7 @@ import { IngredientPreview } from "./IngredientPreview";
 import { useAppSelector } from "../../../services/hooks";
 import { Link, useLocation } from "react-router-dom";
 import { Ingredient } from "../../../services/reducer/types/reducerTypes";
-export function CardOrder({id, ingredientsBurgers, createdAt, title}: {id: number, ingredientsBurgers: Ingredient[], createdAt: string, title:string}){
+export function CardOrder({id, ingredientsBurgers, createdAt, title, status}: {id: number, ingredientsBurgers: Ingredient[], createdAt: string, title:string, status?: string}){
     
     const time= new Date();
     const location =useLocation();
@@ -16,7 +16,10 @@ export function CardOrder({id, ingredientsBurgers, createdAt, title}: {id: numbe
             <div className={`${styles.id} text_type_digits-default `}>{`# ${id}`}</div>
             <div className={`${styles.OrderID__time} text_type_main-default`}><FormattedDate date={new Date(createdAt)}/></div>
             </div>
+            <div>
             <div className={`${styles.cardOrderTitle} mt-6 text_type_main-medium mb-6`}>{title}</div>
+           { status ? <div className={`${styles.ready} text_type_main-default `}>{status==='done'? 'сделано': 'в ожидании'}</div> : ""}
+            </div>
             <IngredientPreview ingredients={ingredientsBurgers} />
         </article >
         </Link>
