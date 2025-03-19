@@ -10,8 +10,8 @@ import { useAppSelector } from "../../../services/hooks";
 
 export function IngredientsDetails() {
     const { _id } = useParams();
+    
     const ingredients = useAppSelector((state) => state.burgerIngredients.ingredients);
-
     const currentIngredient = ingredients.find(item => item._id === _id);
 
     if (!currentIngredient) {

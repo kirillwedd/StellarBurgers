@@ -20,6 +20,8 @@ import { InitialAuth } from './services/action/thunk/UserAction';
 import { useAppDispatch, useAppSelector } from './services/hooks';
 import { Feed } from './components/main/pages/Feed';
 import { FeedBurger } from './components/main/pages/FeedBurger';
+import { useParams } from 'react-router-dom';
+import { FeedModalRoute } from './components/modal/detail/FeedModalRoute';
 
 function App() {
   
@@ -71,9 +73,7 @@ function App() {
             } />
 
             <Route path="/feed/:number" element={
-              <Modal modalTitle={"gyghgh"} onClose={()=> navigate(-1)}>
-                <FeedBurger hidden={false}/>
-              </Modal>
+             <FeedModalRoute/>
             }/>
           </Routes>
         )}

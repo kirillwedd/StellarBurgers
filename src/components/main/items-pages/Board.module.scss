@@ -7,28 +7,28 @@
 .board {
     width: 272px;
     height: 206px;
+    overflow-wrap: break-word;
 }
 
 .orderReadiness {
-    list-style-type: none;
     width: 272px;
-    overflow: auto; 
+    display: flex;
+    flex-wrap: wrap;
     list-style-type: none;
-    height: 156px;
-    
-    border: 2px solid red;
+    height: 206px;
     padding: 0;
+    justify-content: space-between;
 }
 
 
 .ready {
     color: #00CCCC;
     text-align: left;
-    border: 2px solid red;
+    width: 35%;
+    
 }
 
 .working {
     color: white;
     text-align: left;
-    border: 2px solid red;
 }

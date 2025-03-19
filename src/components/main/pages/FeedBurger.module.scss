@@ -31,7 +31,7 @@
 .orderStructure{
     list-style-type: none;
     width: 640px;
-    height: 366px;
+    height: 312px;
     padding: 0;
     overflow-y: auto;   
  
@@ -39,11 +39,13 @@
 
 .feedBurgerOrderName {
     text-align: left;
+    font-size: 24px;
 }
 
 .orderNumber{
-    width: 640px;
     height: 24px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .titleStructure{
