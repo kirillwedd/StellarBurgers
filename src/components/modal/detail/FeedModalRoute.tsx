@@ -4,8 +4,8 @@ import { FeedBurger } from "../../main/pages/FeedBurger";
 
 export function FeedModalRoute(){
 
-    const { number } = useParams(); // Извлечение параметра number
-    const navigate = useNavigate(); // Получаем функцию для навигации
+    const { number } = useParams(); 
+    const navigate = useNavigate(); 
     
     
     return (

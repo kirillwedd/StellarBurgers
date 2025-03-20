@@ -9,11 +9,11 @@ import { request } from '../../../utils/apiUtils';
 import { API_URL } from '../../../apiConfig';
 import { logout } from '../../../services/action/user';
 import { User } from '../../../services/reducer/types/userTypes';
-import { useAppDispatch } from '../../../services/hooks';
-import { CardOrderProfile } from '../items-pages/CardOrderProfile';
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { IApiResponse, IOrder } from '../../../services/reducer/types/wsTypes';
 import { Ingredient } from '../../../services/reducer/types/reducerTypes';
 import { CardOrder } from '../items-pages/CardOrder';
+import { SetOrderPopUp } from '../../../services/action/ws';
 
 
 interface IProfile {
@@ -26,22 +26,25 @@ export function Profile({children}: IProfile) {
     const [password, setPassword] = useState<string>('');
     const accessToken = JSON.parse(localStorage.getItem('users') || '{}')?.accessToken; 
     const tokenWithoutBearer = accessToken.split(' ')[1];
-    const [orders, setOrders] = useState<IOrder[]>([]);
+    const { orders } = useAppSelector((state) => state.ws);
+    const [ordersProfile, setOrdersProfile] = useState<IOrder[]>([]);
     const [originalUserData, setOriginalUserData] = useState<{ name?: string; email?: string }>({});
-    const [availableIngredients, setAvailableIngredients] = useState<Ingredient[]>([]); // Создайте состояние для ингредиентов
+    const [availableIngredients, setAvailableIngredients] = useState<Ingredient[]>([]); 
+    const [fetchedOrder, setFetchedOrder] = useState(null);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    
    
     useEffect(() => {
-        // Функция для получения доступных ингредиентов
+        
         const fetchIngredients = async () => {
-            const response = await request(`${API_URL}/ingredients`); // Замените на ваш API для получения ингредиентов
+            const response = await request(`${API_URL}/ingredients`); 
             if (response.success) {
                 setAvailableIngredients(response.data); 
             }
         };
 
-        fetchIngredients(); // Вызовем эту функцию, чтобы загрузить ингредиенты при монтировании компонента
+        fetchIngredients(); 
     }, []);
 
     useEffect(() => {
@@ -59,7 +62,7 @@ export function Profile({children}: IProfile) {
         socket.onmessage = (event) => {
             const data: IApiResponse = JSON.parse(event.data);
             if (data.success) {
-                setOrders(data.orders || []);
+                setOrdersProfile(data.orders || []);
             } else if (data.message === "Invalid or missing token") {
                 console.error(tokenWithoutBearer);
             }
@@ -122,6 +125,23 @@ export function Profile({children}: IProfile) {
         setName(originalUserData.name || '');
         setEmail(originalUserData.email || '');
         setPassword('');
+    };
+
+    const handleCardClick = async (orderNumber: number) => {
+        const existingOrder = orders.find((order: IOrder) => order.number === orderNumber);
+
+        if (!existingOrder) {
+            try {
+                const response = await fetch(`https://norma.nomoreparties.space/api/orders/${orderNumber}`);
+                if (!response.ok) throw new Error('Ошибка при загрузке заказа');
+                
+                const data = await response.json();
+                dispatch(SetOrderPopUp(data.orders[0])); // Храните полученные данные для дальнейшего использования
+            } catch (error) {
+                console.error('Ошибка:', error);
+                // Здесь можно добавить логику для отображения ошибки пользователю
+            }
+        }
     };
 
     const handleExit = async (e: React.FormEvent<HTMLAnchorElement>) => {
@@ -211,14 +231,14 @@ export function Profile({children}: IProfile) {
                         </form>
                     : 
                         <section className={`${stylesfeed.orders}`}>
-                            {orders.map((order, index) => {
-                                // Преобразование массива идентификаторов в массив объектов ингредиентов
+                            {ordersProfile.map((order, index) => {
+                            
                                 const ingredientsBurgers: Ingredient[] = order.ingredients.map(ingredientId => 
                                     availableIngredients.find(ingredient => ingredient._id === ingredientId)
                                 ).filter((ingredient): ingredient is Ingredient => ingredient !== undefined); 
 
                                 return (
-                                    <CardOrder key={index} title={order.name} id={order.number} createdAt={order.createdAt} status={order.status} ingredientsBurgers={ingredientsBurgers} />
+                                    <CardOrder key={index} locationLink={'профиль'} onClick={()=>handleCardClick(order.number)} title={order.name} id={order.number} createdAt={order.createdAt} status={order.status} ingredientsBurgers={ingredientsBurgers} />
                                 );
                             })}
                         </section>

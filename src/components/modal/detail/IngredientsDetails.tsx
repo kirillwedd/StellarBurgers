@@ -1,11 +1,7 @@
 import { NutrienItem } from "./NutrienItem";
 import '../../../../node_modules/@ya.praktikum/react-developer-burger-ui-components/dist/ui/common.css';
-import PropTypes from 'prop-types';
-import { ingredientType } from "../../../utils/types";
 import styles from '../Modal.module.scss';
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../services/store";
 import { useAppSelector } from "../../../services/hooks";
 
 export function IngredientsDetails() {

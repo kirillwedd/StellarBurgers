@@ -1,6 +1,6 @@
 
 import { AppDispatch, RootState } from '../../store';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from './wsActions';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_GET_MESSAGE_POPUP, WS_SEND_MESSAGE } from './wsActions';
 import { IMessage, IOrder } from './wsTypes';
 
 
@@ -30,6 +30,11 @@ export type AppThunk<ReturnType = void> = (dispatch: AppDispatch, getState: () =
     readonly type: typeof WS_GET_MESSAGE;
     readonly payload: IMessage;
   }
+
+  export interface IWSGetMessagePopUpAction {
+    readonly type: typeof WS_GET_MESSAGE_POPUP;
+    readonly payload: IMessage;
+  }
   
   export interface IWSSendMessageAction {
     readonly type: typeof WS_SEND_MESSAGE;
@@ -43,4 +48,5 @@ export type AppThunk<ReturnType = void> = (dispatch: AppDispatch, getState: () =
     | IWSConnectionErrorAction
     | IWSConnectionClosedAction
     | IWSGetMessageAction
-    | IWSSendMessageAction;
+    | IWSSendMessageAction
+    | IWSGetMessagePopUpAction;

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { IOrder } from '../reducer/types/wsTypes';
 import { AppActions } from '../reducer/types/actions';
 import { Ingredient } from '../reducer/types/reducerTypes';
-import { WS_GET_MESSAGE } from '../reducer/types/wsActions';
+import { WS_GET_MESSAGE, WS_GET_MESSAGE_POPUP } from '../reducer/types/wsActions';
 
 export const CONNECTING: 'CONNECTING' = 'CONNECTING';
 export const OPEN: 'OPEN' = 'OPEN';
@@ -30,10 +30,21 @@ interface SetOrdersAction {
    payload: { orders: IOrder[] }
 }
 
+interface SetOrderPopUp {
+  type: typeof WS_GET_MESSAGE_POPUP
+  payload: { order: IOrder}
+}
+
+
 export const setOrders = (orders: IOrder[]) : SetOrdersAction => ({
   type:  WS_GET_MESSAGE,
   payload: {orders},
 });
+
+export const SetOrderPopUp=(order: IOrder):SetOrderPopUp=>({
+  type: WS_GET_MESSAGE_POPUP,
+  payload:{order}
+})
 
 export const useSocket = (url: string, options: IWSOptions) => {
   const ws = useRef<WebSocket | null>(null);

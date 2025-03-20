@@ -22,6 +22,8 @@ import { Feed } from './components/main/pages/Feed';
 import { FeedBurger } from './components/main/pages/FeedBurger';
 import { useParams } from 'react-router-dom';
 import { FeedModalRoute } from './components/modal/detail/FeedModalRoute';
+import { ORDER_SOCKET_URL } from './apiConfig';
+import { setOrders } from './services/action/ws';
 
 function App() {
   
@@ -36,7 +38,30 @@ function App() {
   useEffect(() => {
     dispatch(InitialAuth());
     dispatch(fetchIngredients());
-  }, [dispatch]);
+    
+    const socket = new WebSocket(`${ORDER_SOCKET_URL}/all`);
+
+    socket.onopen = () => {
+        console.log('WebSocket подключен');
+    };
+
+    socket.onerror = (error) => {
+        console.error('WebSocket ошибка:', error);
+    };
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+
+        if (data.success && Array.isArray(data.orders)) {
+           
+            dispatch(setOrders(data.orders));
+        }
+    };
+
+    return () => {
+        socket.close();
+    };
+}, [dispatch]);
 
 
   
@@ -59,8 +84,9 @@ function App() {
           <Route path="/reset-password" element={<ProtectedRouteElement isProtected={false}>{isForgotPassword ? <ResetPassword /> : <Navigate to="/forgot-password" replace />} </ProtectedRouteElement>} />
           <Route path="/profile" element={<ProtectedRouteElement isProtected={true}><Profile children="profile" /></ProtectedRouteElement>} />
           <Route path="/feed" element={<ProtectedRouteElement isProtected={false}><Feed/> </ProtectedRouteElement>}></Route>
-          <Route path="/profile/orders" element={<ProtectedRouteElement isProtected={false}><Profile children="history"/> </ProtectedRouteElement>}></Route>
+          <Route path="/profile/orders" element={<ProtectedRouteElement isProtected={true}><Profile children="history"/> </ProtectedRouteElement>}></Route>
           <Route path="/feed/:number" element={<ProtectedRouteElement isProtected={false}><FeedBurger/> </ProtectedRouteElement>}></Route>
+          
           <Route path="*" element={<div>Страница не найдена</div>} />
         </Routes>
 
@@ -75,6 +101,14 @@ function App() {
             <Route path="/feed/:number" element={
              <FeedModalRoute/>
             }/>
+
+            <Route path="/profile/orders/:number" element={
+             <FeedModalRoute/>
+            }/>
+
+
+
+
           </Routes>
         )}
 

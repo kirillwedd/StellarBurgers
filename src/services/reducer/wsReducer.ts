@@ -1,12 +1,12 @@
 import { getCurrentTimestamp } from "../../apiConfig";
 import { TWSActions } from "./types/ingredientTypes";
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from "./types/wsActions";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_GET_MESSAGE_POPUP } from "./types/wsActions";
 import {  IOrder } from "./types/wsTypes";
 
   
 type TWSState = {
   wsConnected: boolean;
-  
+  order: IOrder | null;
   orders: IOrder[]; 
   total: number | null; 
   totalToday: number | null; 
@@ -15,10 +15,10 @@ type TWSState = {
 
 const initialState: TWSState = {
   wsConnected: false,
-  
   orders: [],  
   total: null,
   totalToday: null,
+  order: null
 };
   
   export const wsReducer = (state = initialState, action: TWSActions) => {
@@ -54,6 +54,15 @@ const initialState: TWSState = {
           totalToday: totalToday || 0, 
          
         };
+
+      case WS_GET_MESSAGE_POPUP: 
+          const {order}=action.payload;
+          return{
+            ...state,
+            order: order
+          }
+      
+
   
       default:
         return state;

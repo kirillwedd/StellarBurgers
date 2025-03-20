@@ -3,17 +3,14 @@ import styles from '../burger-constructor/BurgerConstructor.module.scss';
 import { useEffect, useMemo, useState } from "react";
 import { SelectedIngredient } from "./SelectIngredient";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import { addIngredient, removeIngredient, replaceBun, moveIngredient } from "../../../../services/action/builderBurger";
 import { Modal } from "../../../modal/Modal";
 import { OrderDetails } from "../../../modal/detail/OrderDetails";
 import { v4 as uuidv4 } from 'uuid';
 import { placeOrderThunk } from "../../../../services/action/thunk/orderActions";
 import { useNavigate } from "react-router-dom";
-import { setAuthorized } from "../../../../services/action/user";
 import { DragIngredient } from "./drag-ingredient/DragIngredient";
 import { Ingredient } from "../../../../services/reducer/types/reducerTypes";
-import { RootState } from "../../../../services/store";
 import { OrderData } from "../../../../services/reducer/types/orderTypes";
 import { useAppDispatch, useAppSelector } from "../../../../services/hooks";
 

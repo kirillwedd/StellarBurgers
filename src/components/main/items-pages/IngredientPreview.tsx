@@ -12,7 +12,7 @@ export function IngredientPreview({ ingredients }: IngredientPreviewProps) {
     const ingredientsInStore = useAppSelector(state => state.burgerIngredients.ingredients);
 
     const ingredientsPreview = useMemo(() => {
-        console.log('Ingredients from props:', ingredients);
+        
         
         
         return ingredientsInStore.filter(ingredient => 

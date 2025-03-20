@@ -5,7 +5,7 @@ export interface IOrder {
     number: number; 
     name: string
     createdAt: string;
-    updatedAt: string; 
+    updatedAt: string;
 }
 
 export interface IApiResponse {
