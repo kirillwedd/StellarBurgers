@@ -6,8 +6,8 @@ import { Ingredient } from '../../../services/reducer/types/reducerTypes';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom'; 
 import { IOrder } from '../../../services/reducer/types/wsTypes';
-import { SetOrderPopUp } from '../../../services/action/ws';
-import { useDispatch } from 'react-redux';
+import { API_URL } from '../../../apiConfig';
+
 
 interface IFeedBurger {
     hidden?: boolean;
@@ -26,7 +26,7 @@ export function FeedBurger({ hidden }: IFeedBurger) {
     
     useEffect(() => {
         if (!orderPopUp) {
-            fetch(`https://norma.nomoreparties.space/api/orders/${number}`)
+            fetch(`${API_URL}/orders/${number}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');

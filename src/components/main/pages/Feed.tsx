@@ -6,62 +6,51 @@ import { Board } from '../items-pages/Board';
 import { Ingredient } from '../../../services/reducer/types/reducerTypes';
 import { IApiResponse, IOrder } from '../../../services/reducer/types/wsTypes';
 import { useAppDispatch, useAppSelector } from '../../../services/hooks';
-import { setOrders } from '../../../services/action/ws';
+import { setOrders, useSocket } from '../../../services/action/ws';
+
 
 export function Feed() {
     const dispatch = useAppDispatch();
     const [total, setTotal] = useState(0);
     const [totalToday, setTotalToday] = useState(0);
 
-    // Получаем ингредиенты из состояния
     const ingredientsInStore = useAppSelector(state => state.burgerIngredients.ingredients);
-    const ordersDone = useAppSelector(state => state.ws.orders); // Получаем готовые заказы
+    const ordersDone = useAppSelector(state => state.ws.orders);
 
-    // Функция для сопоставления идентификаторов ингредиентов с объектами
     const getIngredientsFromIds = (ids: string[]): Ingredient[] => {
         return ingredientsInStore.filter(ingredient => ids.includes(ingredient._id));
     };
 
     const groupedOrders = (orders: IOrder[], limit: number, statusFilter?: string) => {
         return orders
-            .filter(order => !statusFilter || order.status === statusFilter) // Фильтруем заказы по статусу, если фильтр указан
-            .slice(0, limit); // Ограничиваем результат первым 'limit' заказам
+            .filter(order => !statusFilter || order.status === statusFilter)
+            .slice(0, limit);
     };
 
-    useEffect(() => {
-        const socket = new WebSocket(`${ORDER_SOCKET_URL}/all`);
-
-        socket.onopen = () => {
-            console.log('WebSocket подключен');
-        };
-
-        socket.onerror = (error) => {
-            console.error('WebSocket ошибка:', error);
-        };
-
-        socket.onmessage = (event) => {
+    const { connect } = useSocket(`${ORDER_SOCKET_URL}/all`, {
+        onConnect: () => console.log('WebSocket подключен'),
+        onMessage: (event) => {
             const data: IApiResponse = JSON.parse(event.data);
-
             if (data.success && Array.isArray(data.orders)) {
                 setTotal(data.total);
                 setTotalToday(data.totalToday);
                 dispatch(setOrders(data.orders));
             }
-        };
+        },
+        onError: (error) => console.error('WebSocket ошибка:', error),
+        onDisconnect: () => console.log('WebSocket отключен')
+    });
 
-        return () => {
-            socket.close();
-        };
-    }, []);
+    
 
-    const completedOrders = groupedOrders(ordersDone, 10, 'done'); // Получаем первые 10 готовых заказов
+    const completedOrders = groupedOrders(ordersDone, 10, 'done');
     const pendingOrders = groupedOrders(ordersDone, 10, 'pending');
 
     return (
         <div className={`${styles.feedLayout}`}>
             <div className={`${styles.feedHeader} text_type_main-large mb-5`}>Лента заказов</div>
             <section className={`${styles.feed}`}>
-                <section className={`${styles.orders} mr-15 mt-5}`}>
+                <section className={`${styles.orders} mr-15 mt-5`}>
                     {ordersDone.map((order : IOrder, index: number) => {
                         const ingredientsBurgers = getIngredientsFromIds(order.ingredients);
                         return (
@@ -72,19 +61,8 @@ export function Feed() {
 
                 <section className={`${styles.feedStats}`}>
                     <article className={`${styles.boards}`}>
-                        <Board
-                            title='Готовы:'
-                            groupedOrders={completedOrders} 
-                            className=''
-                        />
-
-                        <Board
-                            title='В ожидании:'
-                            groupedOrders={pendingOrders} 
-                            className=''
-                        />
-
-                      
+                        <Board title='Готовы:' groupedOrders={completedOrders} className='' />
+                        <Board title='В ожидании:' groupedOrders={pendingOrders} className='' />
                     </article>
                     <article className={`${styles.board} mt-15`}>
                         <div className={`text_type_main-medium ${styles.board__titleCompleted}`}>Выполнено за все время:</div>

@@ -6,14 +6,15 @@ import  stylesfeed from '../pages/Feed.module.scss'
 import '@ya.praktikum/react-developer-burger-ui-components/dist/ui/box.css';
 import { fetchUserData, refreshTokenUp, updateUserData } from '../../../services/action/thunk/UserAction';
 import { request } from '../../../utils/apiUtils';
-import { API_URL } from '../../../apiConfig';
+import { API_URL, ORDER_SOCKET_URL } from '../../../apiConfig';
 import { logout } from '../../../services/action/user';
 import { User } from '../../../services/reducer/types/userTypes';
 import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { IApiResponse, IOrder } from '../../../services/reducer/types/wsTypes';
 import { Ingredient } from '../../../services/reducer/types/reducerTypes';
 import { CardOrder } from '../items-pages/CardOrder';
-import { SetOrderPopUp } from '../../../services/action/ws';
+import { SetOrderPopUp, useSocket } from '../../../services/action/ws';
+
 
 
 interface IProfile {
@@ -47,35 +48,36 @@ export function Profile({children}: IProfile) {
         fetchIngredients(); 
     }, []);
 
-    useEffect(() => {
-        if (!accessToken) {
-            console.error('Ошибка: отсутствует токен доступа');
-            return;
-        }
-    
-        const socket = new WebSocket(`wss://norma.nomoreparties.space/orders?token=${tokenWithoutBearer}`);
-        
-        socket.onopen = () => {
-            console.log('WebSocket соединение установлено');
-        };
-    
-        socket.onmessage = (event) => {
+    const { connect } = useSocket(`${ORDER_SOCKET_URL}`, {
+        onMessage: (event: MessageEvent) => {
             const data: IApiResponse = JSON.parse(event.data);
             if (data.success) {
                 setOrdersProfile(data.orders || []);
             } else if (data.message === "Invalid or missing token") {
-                console.error(tokenWithoutBearer);
+                console.error("Invalid token");
+            }
+        },
+        onConnect: () => console.log('WebSocket connection established'),
+        onDisconnect: () => console.log('WebSocket connection closed'),
+        onError: (error) => console.error('WebSocket error:', error)
+    });
+
+    useEffect(() => {
+        if (accessToken) {
+            connect(tokenWithoutBearer); 
+        } else {
+            console.error('Access token is missing');
+        }
+
+        
+        const fetchIngredients = async () => {
+            const response = await request(`${API_URL}/ingredients`);
+            if (response.success) {
+                setAvailableIngredients(response.data);
             }
         };
-    
-        socket.onerror = (error) => {
-            console.error('Ошибка WebSocket:', error);
-        };
-    
-        return () => {
-            socket.close();
-            console.log('WebSocket соединение закрыто');
-        };
+
+        fetchIngredients();
     }, [accessToken]);
 
     useEffect(() => {
