@@ -1,0 +1,45 @@
+.structureIngredient {
+    width: 608px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+  
+}
+
+.structureIngredientImage{ 
+        width: 64px;
+        height: 64px;
+        border-style: solid; /* Стиль рамки */
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+       border-style: solid;
+       background: 
+       linear-gradient(#000000 0 0) padding-box, /*this is your grey background*/
+       linear-gradient( #801AB2 0%, #4C4CFF 100%) border-box;
+       border: 2px solid transparent;
+       border-radius: 100px;
+       
+}
+
+
+    .img{    
+        transform: scale(0.5) ;
+        border-radius: 100px;
+    }
+
+
+.structureIngredientPrice{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.structureIngredientTitle{
+    flex-grow: 1;
+    text-align: left;
+}

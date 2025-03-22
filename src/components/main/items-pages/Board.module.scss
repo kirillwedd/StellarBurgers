@@ -1,0 +1,35 @@
+.title {
+    text-align: left;
+    width: 280px;
+    
+}
+
+.board {
+    width: 272px;
+    height: 206px;
+    overflow-wrap: break-word;
+}
+
+.orderReadiness {
+    width: 272px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    height: 206px;
+    padding: 0;
+    justify-content: space-between;
+}
+
+
+.ready {
+    color: #00CCCC;
+    text-align: left;
+    width: 35%;
+    
+}
+
+.working {
+    color: white;
+    text-align: left;
+    width: 35%;
+}

@@ -1,5 +1,4 @@
 import { GroupIngredients } from "./group-ingredients/GroupIngredients";
-import PropTypes from 'prop-types';
 import styles from '../burger-ingredients/BurgerIngredients.module.scss';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setTabActive } from "../../../services/action/burgerIngredients";

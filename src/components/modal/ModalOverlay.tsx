@@ -11,7 +11,7 @@ interface IModalOverlay {
 
 export function ModalOverlay({ children, onClick, handleContentClick} : IModalOverlay){
     return(
-        <div className={styles.modalOverlay} onClick={onClick} >
+        <div className={styles.modalOverlay}  onClick={onClick} >
             <div className={styles.modalContent} onClick={handleContentClick}>
             {children}
             </div>

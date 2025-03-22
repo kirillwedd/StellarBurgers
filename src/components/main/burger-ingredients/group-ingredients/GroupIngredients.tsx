@@ -1,7 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { IngredientItems } from "./items/IngredientsItems";
-import { ingredientType } from "../../../../utils/types";
 import styles from '../../../main/burger-ingredients/BurgerIngredients.module.scss';
 import { Ingredient } from '../../../../services/reducer/types/reducerTypes';
 

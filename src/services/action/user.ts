@@ -74,7 +74,7 @@ interface SetAuthorizedAction {
     type: typeof SET_AUTHORIZED;
 }
 
-// Объединяем все действия в один тип
+
 export type UserActions = 
     | RegisterUserAction
     | RegisterUserFailAction
@@ -87,7 +87,7 @@ export type UserActions =
     | ForgotPasswordAction
     | SetAuthorizedAction;
 
-// Функции-действия с корректной типизацией
+
 export const loginUser = (user: User, accessToken: string, refreshToken: string): LoginUserAction => ({
     type: LOGIN_USER,
     payload: { user, accessToken, refreshToken }
@@ -95,7 +95,7 @@ export const loginUser = (user: User, accessToken: string, refreshToken: string)
 
 export const registerUser = (name: string, refreshToken: string, accessToken: string): RegisterUserAction => ({
     type: REGISTER_USER,
-    payload: { name, refreshToken, accessToken, user: {} as User }, // Предположим, что вы передадите пользователя, если это необходимо
+    payload: { name, refreshToken, accessToken, user: {} as User },
 });
 
 export const registerUserFail = (error: string): RegisterUserFailAction => ({
