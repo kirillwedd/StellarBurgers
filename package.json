@@ -51,6 +51,8 @@
     "react-test-renderer": "^18.0.0",
     "redux-mock-store": "^1.5.5",
     "sass": "^1.80.3",
+    "ts-jest": "^29.3.1",
+    "typescript": "^5.8.2",
     "vite": "^5.4.1"
   },
   "jest": {

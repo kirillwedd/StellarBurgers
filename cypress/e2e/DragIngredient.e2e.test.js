@@ -1,6 +1,15 @@
 
 
 describe('Конструктор бургера', () => {
+    const testUrl = 'http://localhost:5173';
+    const burgerItemSelector = "[data-testid=burger-item]"; 
+    const dropContainerSelector = "[data-testid=drop-container]";
+    const constructorContainerSelector = '[data-testid=constructor-container]';
+    const modalSelector = '[data-testid=modal]';
+    const modalTitleSelector = '[data-testid=modal-title]';
+    const closeButtonSelector = '[data-testid=close-button]';
+    const modalOverlaySelector = '[data-testid=modal-overlay]';
+
   beforeEach(() => {
         cy.intercept("GET", "/api/auth/user", { fixture: "user.json" });
 
@@ -23,67 +32,45 @@ describe('Конструктор бургера', () => {
       
         // Открываем приложение перед началом тестов
         cy.viewport(1920, 1080);
-        cy.visit('http://localhost:5173');
+        cy.visit(testUrl);
     });
 
 
     it('должен перетаскивать ингредиенты в конструктор', () => {
-        
-        cy.get("[data-testid=burger-item]").contains("Краторная булка N-200i").trigger('dragstart');// Замените на селектор вашего ингредиента
-        cy.get("[data-testid=drop-container]").trigger('drop'); // Замените на селектор контейнера конструктора
-  
+        cy.get(burgerItemSelector).contains("Краторная булка N-200i").trigger('dragstart');
+        cy.get(dropContainerSelector).trigger('drop');
+
         // Проверяем, что ингредиент появился в конструкторе
-        cy.get('[data-testid=constructor-container]').contains('Краторная булка N-200i').should('exist'); // Замените на фактическое название
+        cy.get(constructorContainerSelector).contains('Краторная булка N-200i').should('exist');
     });
 
-
     it('должен открывать модалку при клике на ингредиент', () => {
-        // Находим ингредиент по его названию и кликаем на него
-        cy.get("[data-testid=burger-item]").contains("Краторная булка N-200i").click();
-
-        // Проверяем, что модальное окно открывается
-        cy.get('[data-testid=modal]').should('be.visible'); // Проверьте селектор модального окна, замените на нужный
-
-        // Дальше можем проверить наличие деталей ингредиента
-        cy.get('[data-testid=modal-title]').contains('Краторная булка N-200i').should('exist'); // Проверка на заголовок в модалке
-        
+        cy.get(burgerItemSelector).contains("Краторная булка N-200i").click();
+        cy.get(modalSelector).should('be.visible');
+        cy.get(modalTitleSelector).contains('Краторная булка N-200i').should('exist');
     });
 
     it('должен закрывать модалку при клике на кнопку закрытия', () => {
-        // Открываем модалку
-        cy.get("[data-testid=burger-item]").contains("Краторная булка N-200i").click();
-        cy.get('[data-testid=modal]').should('be.visible');
-
-        // Закрываем модалку
-        cy.get('[data-testid=close-button]').click(); // Проверяем селектор кнопки закрытия модалки
-
-        // Проверяем, что модальное окно закрылось
-        cy.get('[data-testid=modal]').should('not.exist');
+        cy.get(burgerItemSelector).contains("Краторная булка N-200i").click();
+        cy.get(modalSelector).should('be.visible');
+        cy.get(closeButtonSelector).click();
+        cy.get(modalSelector).should('not.exist');
     });
 
     it('должен закрывать модалку при клике на оверлей', () => {
-        cy.get("[data-testid=burger-item]").contains("Краторная булка N-200i").click();
-        
-        // Проверяем, что модалка открыта
-        cy.get('[data-testid=modal-overlay]').should('be.visible');
-    
-        // Кликаем на оверлей
-        cy.get('[data-testid=modal-overlay]').then(($overlay) => {
-            const overlayWidth = $overlay.width(); // Получаем ширину оверлея
-            const overlayHeight = $overlay.height(); // Получаем высоту оверлея
-    
-            // Рассчитываем смещение в пикселях (например, 10% ширины вправо)
+        cy.get(burgerItemSelector).contains("Краторная булка N-200i").click();
+        cy.get(modalOverlaySelector).should('be.visible');
+
+        cy.get(modalOverlaySelector).then(($overlay) => {
+            const overlayWidth = $overlay.width();
+            const overlayHeight = $overlay.height();
             const offsetX = overlayWidth * 0.1; // 10% от ширины
             const offsetY = overlayHeight * 0; // 0% от высоты
-    
-            // Кликаем на оверлей с рассчитанным смещением
-            cy.wrap($overlay).click(offsetX, offsetY); // Кликаем с offsetX и offsetY
-        });
-    
-        // Проверяем, что модалка закрыта
-        cy.get('[data-testid=modal-overlay]').should('not.exist');
 
-       
+            cy.wrap($overlay).click(offsetX, offsetY);
+        });
+
+        cy.get(modalOverlaySelector).should('not.exist');
     });
 
   
