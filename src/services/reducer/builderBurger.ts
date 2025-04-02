@@ -1,7 +1,7 @@
 import { BurgerActions, ADD_BUILDER_BURGER_INGREDIENT, MOVE_INGREDIENT, REMOVE_INGREDIENT, REPLACE_BUN } from "../action/builderBurger";
 import { BurgerConstructorState } from "./types/reducerTypes";
 
-const initialState: BurgerConstructorState = {
+export const initialState: BurgerConstructorState = {
     ingredientsBurger: [],
     bun: null,
 };
@@ -27,7 +27,7 @@ export const burgerConstructorReducer = (
         case REMOVE_INGREDIENT:
             return {
                 ...state,
-                ingredientsBurger: state.ingredientsBurger.filter(ingredient => ingredient.uniqueId !== action.payload.id)
+                ingredientsBurger: state.ingredientsBurger.filter(ingredient => ingredient.uniqueId !== action.payload._id)
             };
         case MOVE_INGREDIENT: {
             const { fromIndex, toIndex } = action;
@@ -46,3 +46,4 @@ export const burgerConstructorReducer = (
             return state;
     }
 };
+

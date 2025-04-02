@@ -3,11 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "./",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cypress:open": "cypress open",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7.25.6",
@@ -24,16 +29,44 @@
     "uuid": "^11.0.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
     "@eslint/js": "^9.9.0",
+    "@testing-library/react": "^16.2.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "babel-jest": "^29.7.0",
+    "cypress": "^14.2.0",
     "eslint": "^9.9.0",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
+    "fetch-mock": "^12.5.2",
+    "gh-pages": "^6.3.0",
     "globals": "^15.9.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "react-test-renderer": "^18.0.0",
+    "redux-mock-store": "^1.5.5",
     "sass": "^1.80.3",
     "vite": "^5.4.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "node",
+      "ts",
+      "tsx"
+    ],
+    "testEnvironment": "jsdom",
+    "preset": "ts-jest"
   }
 }
