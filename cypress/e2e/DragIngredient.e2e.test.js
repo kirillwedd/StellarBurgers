@@ -38,7 +38,9 @@ describe('Конструктор бургера', () => {
 
     it('должен перетаскивать ингредиенты в конструктор', () => {
         cy.get(burgerItemSelector).contains("Краторная булка N-200i").trigger('dragstart');
+        cy.wait(500);
         cy.get(dropContainerSelector).trigger('drop');
+        cy.wait(500);
 
         // Проверяем, что ингредиент появился в конструкторе
         cy.get(constructorContainerSelector).contains('Краторная булка N-200i').should('exist');

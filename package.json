@@ -69,6 +69,7 @@
       "tsx"
     ],
     "testEnvironment": "jsdom",
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testPathIgnorePatterns": ["/node_modules/", "<rootDir>/cypress/"]
   }
 }
