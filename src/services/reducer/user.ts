@@ -2,7 +2,7 @@ import {  REGISTER_USER, REGISTER_USER_FAIL,  LOGIN_USER, LOGIN_FAIL, LOGOUT, UP
 import { UserState } from "./types/reducerTypes";
 import { User } from "./types/userTypes";
 
-const initialState : UserState = {
+export const initialState : UserState = {
     isForgotPassword: false,
     loading: false,
     error: null,

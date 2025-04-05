@@ -42,7 +42,7 @@ export function IngredientItems({ onClick, ingredients, _id, name, price, image,
         <Link to={`/ingredients/${_id}`} state={{ background: location }}  className={styles.link}  >
         <article className={styles.burgerItem__counter} ref={drag}>
             <Counter count={countIngredients(_id, type)} /> 
-            <article className={`${styles.burgerIngredients__item} ${styles.burgerItem}`} onClick={onClick}>
+            <article className={`${styles.burgerIngredients__item} ${styles.burgerItem}`} data-testid="burger-item"  onClick={onClick}>
                 <img src={image} alt={name} className={`${styles.burgerItem__image} ml-4 mr-4`} />
                 <div className={`${styles.burgerItem__price} text_type_digits-default mt-1`}>
                     {price} <CurrencyIcon type="primary" className="ml-2"/>

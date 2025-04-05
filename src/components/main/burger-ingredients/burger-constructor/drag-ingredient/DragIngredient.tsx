@@ -63,7 +63,7 @@ export const DragIngredient: React.FC<DragIngredientProps> = ({ ingredient, inde
     drag(drop(ref));
 
     return (
-        <article ref={ref} className={`${styles.burgerConstructor__ingredient} mb-4 ${isDragging ? 'dragging' : ''}`}>
+        <article  ref={ref} data-testid={"ingredient-643d69a5c3f7b9001cfa0941"}  className={`${styles.burgerConstructor__ingredient} mb-4 ${isDragging ? 'dragging' : ''}`}>
             <DragIcon type="primary" />
             <ConstructorElement 
                 thumbnail={ingredient.image}
@@ -76,4 +76,3 @@ export const DragIngredient: React.FC<DragIngredientProps> = ({ ingredient, inde
         </article>
     );
 };
-
