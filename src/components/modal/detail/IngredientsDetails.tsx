@@ -19,7 +19,7 @@ export function IngredientsDetails() {
             <div className={`${styles.informationIngredients__wrapperImage} mb-4`}>
                 <img className={styles.informationIngredients__image} src={currentIngredient.image} alt={currentIngredient.name}  />
             </div>
-            <h2 className={`${styles.informationIngredients__name} mb-8 text_type_main-medium text_color_primary`}>{currentIngredient.name}</h2>
+            <h2 className={`${styles.informationIngredients__name} mb-8 text_type_main-medium text_color_primary`} data-testid="modal-title">{currentIngredient.name}</h2>
             <div className={`${styles.informationIngredients__nutriens} mb-15`}>
                 <NutrienItem title="Калории, ккал" count={currentIngredient.calories} />
                 <NutrienItem title="Белки, г" count={currentIngredient.proteins} />

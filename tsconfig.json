@@ -1,6 +1,3 @@
-
-// tsconfig.json
-
 {
   "compilerOptions": {
     "target": "es5",
@@ -24,6 +21,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "src/components/main/burger-ingredients/burger-constructor/drag-ingredient/DragIngredient.cy.js",
+    "cypress/e2e/DragIngredient.e2e.test.js"
   ]
 }

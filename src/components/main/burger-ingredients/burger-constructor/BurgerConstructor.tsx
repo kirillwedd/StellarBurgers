@@ -101,9 +101,9 @@ export function BurgerConstructor() {
 
     return (
         <div className={styles.burgerConstructor}>
-            <section className="mt-25" ref={drop}>
+            <section className="mt-25" data-testid="drop-container" ref={drop}>
                 {bun ? (
-                    <article className={`${styles.burgerConstructor__ingredient} mb-4`} key={bun._id}>
+                    <article className={`${styles.burgerConstructor__ingredient} mb-4`} data-testid="constructor-container" key={bun._id}>
                         <ConstructorElement
                             thumbnail={bun.image}
                             price={bun.price}
@@ -138,7 +138,7 @@ export function BurgerConstructor() {
                 </section>
 
                 {bun ? (
-                    <article className={`${styles.burgerConstructor__ingredient} mb-4`} key={bun.uniqueId}>
+                    <article className={`${styles.burgerConstructor__ingredient} mb-4`} data-testid="constructor-container"  key={bun.uniqueId}>
                         <ConstructorElement
                             thumbnail={bun.image}
                             price={bun.price}

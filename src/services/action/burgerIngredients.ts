@@ -19,7 +19,7 @@ interface SetLoadingAction {
 
 interface SetErrorAction {
   type: typeof SET_ERROR;
-  payload: string; // или другой подходящий тип
+  payload: string; 
 }
 
 interface SetTabActiveAction {

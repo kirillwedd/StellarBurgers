@@ -15,7 +15,7 @@ interface IAddIngredientBuilderAction {
 
 interface IRemoveIngredientAction {
     type: typeof REMOVE_INGREDIENT;
-    payload: { id: string }; 
+    payload: { _id: string }; 
 }
 
 interface IReplaceBunAction {
@@ -48,7 +48,7 @@ export const addIngredient = (ingredientBurger: Ingredient): IAddIngredientBuild
 
 export const removeIngredient = (id: string): IRemoveIngredientAction => ({
     type: REMOVE_INGREDIENT,
-    payload: { id },
+    payload: {_id: id },
 });
 
 

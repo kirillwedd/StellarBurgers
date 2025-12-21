@@ -5,7 +5,7 @@ import { BurgerIngredientsState } from "./types/reducerTypes";
 
 
 
-const initialState : BurgerIngredientsState = {
+export const initialState : BurgerIngredientsState = {
     ingredients: [],
     loading: true,
     error: null,
